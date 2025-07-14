@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Frontend;
+namespace App\Http\Controllers\Frontend\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -10,7 +10,7 @@ class HomeController extends Controller
     //
     public function index()
     {
-        dd("Frontend Home Index");
-        return view('frontend.home');
+        dd("API Home Index");
+        return view('frontend.home.api');
     }
 }

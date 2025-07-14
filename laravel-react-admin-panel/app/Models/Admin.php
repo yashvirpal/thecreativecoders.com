@@ -5,12 +5,11 @@ namespace App\Models;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
+use App\Models\Role;
 
 class Admin extends Authenticatable
 {
     use HasApiTokens, Notifiable;
-
-    protected $guard = 'admin-api';
 
     protected $fillable = ['name', 'email', 'password'];
 
@@ -31,5 +30,10 @@ class Admin extends Authenticatable
         return $this->roles()
             ->whereHas('permissions', fn($q) => $q->where('name', $permissionName))
             ->exists();
+    }
+
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password'] = bcrypt($password);
     }
 }

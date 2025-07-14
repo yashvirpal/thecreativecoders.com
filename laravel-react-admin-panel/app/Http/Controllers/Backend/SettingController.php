@@ -1,0 +1,16 @@
+<?php
+
+namespace App\Http\Controllers\Backend;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+
+class SettingController extends Controller
+{
+    public function index()
+    {
+        dd("Setting Index");
+        // You can pass data to the dashboard view here
+        return view('Setting.index');
+    }
+}
