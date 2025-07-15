@@ -1,0 +1,18 @@
+# Allow all user agents access to everything
+User-agent: *
+
+# Disallow WordPress core sensitive paths
+Disallow: /blog/wp-admin/
+Disallow: /blog/wp-includes/
+Disallow: /blog/wp-content/plugins/
+Disallow: /blog/wp-content/themes/
+Disallow: /blog/wp-json/
+
+# Allow admin-ajax for async functionality
+Allow: /blog/wp-admin/admin-ajax.php
+
+# Disallow any unnecessary PHP files
+Disallow: /*.php$
+
+# Sitemap location
+Sitemap: https://thecreativecoders.com/sitemap.xml

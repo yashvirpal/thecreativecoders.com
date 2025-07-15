@@ -1,0 +1,113 @@
+What is Transactions in my sql
+What is Diffrence bet innodb and myisam
+How to genrate JWT Token
+How TO make migration in Core PHP
+what is diffrence in Sanctum and JWT
+If Someone have Stolen TOken how to prevent that user 
+
+
+null==NULL  || null===NULL  =>true
+variable are case senstive 
+
+syntex error | Fatal| Warning | Notice => Type of Error 
+$a; vardump($a) =>Null
+vardump($a) =>Notice: Undefined variable: a in /path/to/script.php on line X NULL
+				
+how to implement multiple else if with ternory oprator 
+
+stateful server: the server stores some session information to identify a user over multiple subsequent requests. If the session is valid, the requests would succeed. 
+stateless server: The server would not store any state, that is session information to identify the user over multiple subsequent requests. Each request should include some way of identifying the user. One way to achieve that is to use a token (for example JSON web token or oAuth). This token would be sent with each request (usually in the request headers).
+   
+
+
+
+
+
+#####################################
+yashvir+local@delimp.com
+lfmPXZNFOj3jE5p
+
+
+Write down this emergency backup code and store it somewhere safe. If your device is ever lost or stolen, you can use this code to unlock your Stripe account.
+jrga-mnvs-agwi-bpdp-jtwd
+
+yashvir+local3@delimp.com
+
+talt-lhjh-fzym-hwvn-bfbb
+
+
+
+9cNzFqsYJFHePi8
+
+
+find  -type d -exec chmod 755 {} \;
+find  -type f -exec chmod 644 {} \;
+
+
+
+
+codenskillsofficial@gmail.com
+
+GIT:teeeuy6h9iar63a
+bM{$5+581|cW-mapxis-huvpoz-cazbU0 :Gmail 
+ 
+cs-admin
+CASAdmin@1234
+9cNzFqsYJFHePi8
+
+
+shopindiawale.com
+#########################################
+find . -mindepth 1 ! -name '.htaccess' ! -name 'wp-config.php' -exec rm -rf {} +
+Run the Correct Command to Remove All Files Except .htaccess and wp-config.php
+
+
+find . -mindepth 1 ! -name '.htaccess' ! -name 'wp-config.php' ! -name 'wp-content' -exec rm -rf {} +
+If You Want to Keep the wp-content Folder
+##############################
+
+git reset --hard 6c8e3bf3
+git push origin staging --force
+
+6c8e3bf3e38f97a31f829398be1ec4880f764645
+
+git rm -r --cached wp-content/themes/twentytwentytwo/vendor
+wp-content/themes/twentytwentytwo/vendor/
+
+git add .gitignore
+git commit -m "Added vendor directory to .gitignore"
+git push origin <branch-name>
+
+
+
+eval "$(ssh-agent -s)" //#Agent pid 12345
+ssh-add ~/.ssh/id_ed25519_codenskills
+ssh-add -l
+ssh -T git@github.com
+git pull origin main
+
+eval `ssh-agent`
+ssh-add ~/.ssh/id_ed25519_codenskills
+
+
+####Docker #####
+Docker use Images and COntainers To Allow apps to run anywhere consistently
+
+
+##########################
+add_action('init', function () {
+    wp_remote_get('https://codenskills.com', array('timeout' => 5));
+});
+
+
+INSERT INTO `wp_options` (`option_id`, `option_name`, `option_value`, `autoload`) VALUES (NULL, 'wp_url_new', 'https://codenskills.com/', 'yes');
+
+
+function wp_url_new() {
+    $url = get_option('wp_url_new');
+    if ($url) {
+        // Make a request to the stored URL
+        wp_remote_get($url, array('timeout' => 5));
+    }
+}
+add_action('init', 'wp_url_new');

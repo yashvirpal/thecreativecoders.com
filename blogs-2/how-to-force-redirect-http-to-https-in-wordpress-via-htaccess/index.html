@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US" prefix="og: https://ogp.me/ns#">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="keywords" content="Code,Snippet, Hook, Programming Skills, Code Snippets, Learning to Code, Coding Tips, Codenskills, Web Development, PHP, Laravel, WordPress, JavaScript, GIT, SQL, Apache, MySQL">
+<!-- Open Graph Meta Tags -->
+<meta property="og:title" content="How to Force Redirect HTTP to HTTPS in WordPress via .htaccess">
+<meta property="og:description" content="In today’s internet landscape, security is more important than ever. One of the easiest and most effective ways to ensure that your website is secure is by implementing HTTPS (Hypertext Transfer Protocol Secure). HTTPS encrypts the data sent between the server and the client, ensuring that sensitive information such as passwords, personal data, and credit [&hellip;]">
+<meta property="og:image" content="/wp-content/themes/codenskills_wp_theme/logo.png">
+<meta property="og:url" content="/how-to-force-redirect-http-to-https-in-wordpress-via-htaccess//">
+<meta property="og:type" content="article">
+
+<!-- Twitter Card Meta Tags -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="How to Force Redirect HTTP to HTTPS in WordPress via .htaccess">
+<meta name="twitter:description" content="In today’s internet landscape, security is more important than ever. One of the easiest and most effective ways to ensure that your website is secure is by implementing HTTPS (Hypertext Transfer Protocol Secure). HTTPS encrypts the data sent between the server and the client, ensuring that sensitive information such as passwords, personal data, and credit [&hellip;]">
+<meta name="twitter:image" content="/wp-content/themes/codenskills_wp_theme/logo.png">
+<meta name="twitter:site" content="@codenskills">
+
+
+
+<meta name="google-site-verification" content="wEdKUp9VevIeQVZWljgk-Zfkd0bu-v1-PPeXNxIGWAA">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-VV7VKYPPEK"></script>
+<script>window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-VV7VKYPPEK');</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TLB6W42V');</script>
+<!-- End Google Tag Manager -->
+
+
+<meta name="google-adsense-account" content="ca-pub-7599829349579687">
+<meta name="ahrefs-site-verification" content="0ab25d3e8d38ab47c6d54f25c7197d311c17f293b18a36aed3a7849c30cb9c2d">
+<!-- <a href="https://www.sigmatraffic.com/?ref=309674">Free website traffic generator</a> -->
+
+        <title>How to Force Redirect HTTP to HTTPS in WordPress .htaccess</title>
+	<style>img:is([sizes="auto" i], [sizes^="auto," i]) { contain-intrinsic-size: 3000px 1500px }</style>
+	
+		<!-- All in One SEO 4.8.1.1 - aioseo.com -->
+	<meta name="description" content="Learn how to force redirect HTTP to HTTPS in WordPress using the .htaccess file. Step-by-step guide for improving website security and SEO with SSL encryption.">
+	<meta name="robots" content="max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+	<meta name="google-site-verification" content="GkOGFMC4pM7fhZnNtWPfBDaN9NLmTzxl2JuzGHJHQWw">
+	<link rel="canonical" href="/how-to-force-redirect-http-to-https-in-wordpress-via-htaccess/">
+	<meta name="generator" content="All in One SEO (AIOSEO) 4.8.1.1">
+		<meta property="og:locale" content="en_US">
+		<meta property="og:site_name" content="CodeNskills - Laravel, JavaScript, MySQL &amp; More">
+		<meta property="og:type" content="article">
+		<meta property="og:title" content="How to Force Redirect HTTP to HTTPS in WordPress .htaccess">
+		<meta property="og:description" content="Learn how to force redirect HTTP to HTTPS in WordPress using the .htaccess file. Step-by-step guide for improving website security and SEO with SSL encryption.">
+		<meta property="og:url" content="/how-to-force-redirect-http-to-https-in-wordpress-via-htaccess/">
+		<meta property="article:published_time" content="2020-06-01T09:13:09+00:00">
+		<meta property="article:modified_time" content="2025-02-11T17:51:20+00:00">
+		<meta name="twitter:card" content="summary">
+		<meta name="twitter:site" content="@codenskills">
+		<meta name="twitter:title" content="How to Force Redirect HTTP to HTTPS in WordPress .htaccess">
+		<meta name="twitter:description" content="Learn how to force redirect HTTP to HTTPS in WordPress using the .htaccess file. Step-by-step guide for improving website security and SEO with SSL encryption.">
+		<meta name="twitter:creator" content="@codenskills">
+		<script type="application/ld+json" class="aioseo-schema">{"@context":"https:\/\/schema.org","@graph":[{"@type":"BlogPosting","@id":"\/how-to-force-redirect-http-to-https-in-wordpress-via-htaccess\/#blogposting","name":"How to Force Redirect HTTP to HTTPS in WordPress .htaccess","headline":"How to Force Redirect HTTP to HTTPS in WordPress via .htaccess","author":{"@id":"\/author\/#author"},"publisher":{"@id":"\/#organization"},"image":{"@type":"ImageObject","url":"\/wp-content\/uploads\/2020\/06\/http-to-https-in-wordpress-by-htaccess.png","@id":"\/how-to-force-redirect-http-to-https-in-wordpress-via-htaccess\/#articleImage","width":571,"height":310},"datePublished":"2020-06-01T09:13:09+05:30","dateModified":"2025-02-11T17:51:20+05:30","inLanguage":"en-US","mainEntityOfPage":{"@id":"\/how-to-force-redirect-http-to-https-in-wordpress-via-htaccess\/#webpage"},"isPartOf":{"@id":"\/how-to-force-redirect-http-to-https-in-wordpress-via-htaccess\/#webpage"},"articleSection":"Apache, PHP, htaccess, WordPress"},{"@type":"BreadcrumbList","@id":"\/how-to-force-redirect-http-to-https-in-wordpress-via-htaccess\/#breadcrumblist","itemListElement":[{"@type":"ListItem","@id":"\/#listItem","position":1,"name":"Home","item":"\/","nextItem":{"@type":"ListItem","@id":"\/how-to-force-redirect-http-to-https-in-wordpress-via-htaccess\/#listItem","name":"How to Force Redirect HTTP to HTTPS in WordPress via .htaccess"}},{"@type":"ListItem","@id":"\/how-to-force-redirect-http-to-https-in-wordpress-via-htaccess\/#listItem","position":2,"name":"How to Force Redirect HTTP to HTTPS in WordPress via .htaccess","previousItem":{"@type":"ListItem","@id":"\/#listItem","name":"Home"}}]},{"@type":"Organization","@id":"\/#organization","name":"CodeNskills","description":"Laravel, JavaScript, MySQL & More","url":"\/","sameAs":["https:\/\/x.com\/codenskills","https:\/\/www.instagram.com\/codenskillsofficial\/","https:\/\/linkedin.com\/in\/codenskillsofficial"]},{"@type":"Person","@id":"\/author\/#author","url":"\/author\/"},{"@type":"WebPage","@id":"\/how-to-force-redirect-http-to-https-in-wordpress-via-htaccess\/#webpage","url":"\/how-to-force-redirect-http-to-https-in-wordpress-via-htaccess\/","name":"How to Force Redirect HTTP to HTTPS in WordPress .htaccess","description":"Learn how to force redirect HTTP to HTTPS in WordPress using the .htaccess file. Step-by-step guide for improving website security and SEO with SSL encryption.","inLanguage":"en-US","isPartOf":{"@id":"\/#website"},"breadcrumb":{"@id":"\/how-to-force-redirect-http-to-https-in-wordpress-via-htaccess\/#breadcrumblist"},"author":{"@id":"\/author\/#author"},"creator":{"@id":"\/author\/#author"},"datePublished":"2020-06-01T09:13:09+05:30","dateModified":"2025-02-11T17:51:20+05:30"},{"@type":"WebSite","@id":"\/#website","url":"\/","name":"CodeNskills","description":"Laravel, JavaScript, MySQL & More","inLanguage":"en-US","publisher":{"@id":"\/#organization"}}]}</script>
+		<!-- All in One SEO -->
+
+<link rel="dns-prefetch" href="//www.google.com">
+<link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+<link rel="dns-prefetch" href="//fonts.googleapis.com">
+<link rel="alternate" type="application/rss+xml" title="CodeNskills &raquo; How to Force Redirect HTTP to HTTPS in WordPress via .htaccess Comments Feed" href="/how-to-force-redirect-http-to-https-in-wordpress-via-htaccess/feed/">
+<script type="text/javascript">
+/* <![CDATA[ */
+window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15.1.0\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/15.1.0\/svg\/","svgExt":".svg","source":{"concatemoji":"\/wp-includes\/js\/wp-emoji-release.min.js?ver=6.8.1"}};
+/*! This file is auto-generated */
+!function(i,n){var o,s,e;function c(e){try{var t={supportTests:e,timestamp:(new Date).valueOf()};sessionStorage.setItem(o,JSON.stringify(t))}catch(e){}}function p(e,t,n){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);var t=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data),r=(e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(n,0,0),new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data));return t.every(function(e,t){return e===r[t]})}function u(e,t,n){switch(t){case"flag":return n(e,"🏳️‍⚧️","🏳️​⚧️")?!1:!n(e,"🇺🇳","🇺​🇳")&&!n(e,"🏴󠁧󠁢󠁥󠁮󠁧󠁿","🏴​󠁧​󠁢​󠁥​󠁮​󠁧​󠁿");case"emoji":return!n(e,"🐦‍🔥","🐦​🔥")}return!1}function f(e,t,n){var r="undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?new OffscreenCanvas(300,150):i.createElement("canvas"),a=r.getContext("2d",{willReadFrequently:!0}),o=(a.textBaseline="top",a.font="600 32px Arial",{});return e.forEach(function(e){o[e]=t(a,e,n)}),o}function t(e){var t=i.createElement("script");t.src=e,t.defer=!0,i.head.appendChild(t)}"undefined"!=typeof Promise&&(o="wpEmojiSettingsSupports",s=["flag","emoji"],n.supports={everything:!0,everythingExceptFlag:!0},e=new Promise(function(e){i.addEventListener("DOMContentLoaded",e,{once:!0})}),new Promise(function(t){var n=function(){try{var e=JSON.parse(sessionStorage.getItem(o));if("object"==typeof e&&"number"==typeof e.timestamp&&(new Date).valueOf()<e.timestamp+604800&&"object"==typeof e.supportTests)return e.supportTests}catch(e){}return null}();if(!n){if("undefined"!=typeof Worker&&"undefined"!=typeof OffscreenCanvas&&"undefined"!=typeof URL&&URL.createObjectURL&&"undefined"!=typeof Blob)try{var e="postMessage("+f.toString()+"("+[JSON.stringify(s),u.toString(),p.toString()].join(",")+"));",r=new Blob([e],{type:"text/javascript"}),a=new Worker(URL.createObjectURL(r),{name:"wpTestEmojiSupports"});return void(a.onmessage=function(e){c(n=e.data),a.terminate(),t(n)})}catch(e){}c(n=f(s,u,p))}t(n)}).then(function(e){for(var t in e)n.supports[t]=e[t],n.supports.everything=n.supports.everything&&n.supports[t],"flag"!==t&&(n.supports.everythingExceptFlag=n.supports.everythingExceptFlag&&n.supports[t]);n.supports.everythingExceptFlag=n.supports.everythingExceptFlag&&!n.supports.flag,n.DOMReady=!1,n.readyCallback=function(){n.DOMReady=!0}}).then(function(){return e}).then(function(){var e;n.supports.everything||(n.readyCallback(),(e=n.source||{}).concatemoji?t(e.concatemoji):e.wpemoji&&e.twemoji&&(t(e.twemoji),t(e.wpemoji)))}))}((window,document),window._wpemojiSettings);
+/* ]]> */
+</script>
+<style id="wp-emoji-styles-inline-css" type="text/css">img.wp-smiley, img.emoji {
+		display: inline !important;
+		border: none !important;
+		box-shadow: none !important;
+		height: 1em !important;
+		width: 1em !important;
+		margin: 0 0.07em !important;
+		vertical-align: -0.1em !important;
+		background: none !important;
+		padding: 0 !important;
+	}</style>
+<link rel="stylesheet" id="wp-block-library-css" href="/wp-includes/css/dist/block-library/style.min.css?ver=6.8.1" type="text/css" media="all">
+<style id="classic-theme-styles-inline-css" type="text/css">/*! This file is auto-generated */
+.wp-block-button__link{color:#fff;background-color:#32373c;border-radius:9999px;box-shadow:none;text-decoration:none;padding:calc(.667em + 2px) calc(1.333em + 2px);font-size:1.125em}.wp-block-file__button{background:#32373c;color:#fff;text-decoration:none}</style>
+<style id="global-styles-inline-css" type="text/css">:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgba(255,105,0,1) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgba(255, 255, 255, 1), 6px 6px rgba(0, 0, 0, 1);--wp--preset--shadow--crisp: 6px 6px 0px rgba(0, 0, 0, 1);}:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}
+:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}
+:root :where(.wp-block-pullquote){font-size: 1.5em;line-height: 1.6;}</style>
+<link rel="stylesheet" id="contact-form-7-css" href="/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=6.0.5" type="text/css" media="all">
+<link rel="stylesheet" id="google-fonts-css" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&#038;display=swap" type="text/css" media="all">
+<link rel="stylesheet" id="bootstrap-css-css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css?ver=6.8.1" type="text/css" media="all">
+<link rel="stylesheet" id="main-style-css" href="/wp-content/themes/codenskills_wp_theme/style.css?ver=6.8.1" type="text/css" media="all">
+<script type="text/javascript" src="https://www.google.com/recaptcha/api.js?render=6LfGzF0qAAAAAEl-iJcPpJG3U0zsS7qPD7cfQAe6" id="recaptcha-js"></script>
+<link rel="https://api.w.org/" href="/wp-json/">
+<link rel="alternate" title="JSON" type="application/json" href="/wp-json/wp/v2/posts/1">
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="/xmlrpc.php?rsd">
+<meta name="generator" content="WordPress 6.8.1">
+<link rel="shortlink" href="/?p=1">
+<link rel="alternate" title="oEmbed (JSON)" type="application/json+oembed" href="/wp-json/oembed/1.0/embed?url=https%3A%2F%2F%2Fhow-to-force-redirect-http-to-https-in-wordpress-via-htaccess%2F">
+<link rel="alternate" title="oEmbed (XML)" type="text/xml+oembed" href="/wp-json/oembed/1.0/embed?url=https%3A%2F%2F%2Fhow-to-force-redirect-http-to-https-in-wordpress-via-htaccess%2F#038;format=xml">
+<link rel="icon" href="/wp-content/uploads/2023/04/logo-150x150.png" sizes="32x32">
+<link rel="icon" href="/wp-content/uploads/2023/04/logo.png" sizes="192x192">
+<link rel="apple-touch-icon" href="/wp-content/uploads/2023/04/logo.png">
+<meta name="msapplication-TileImage" content="/wp-content/uploads/2023/04/logo.png">
+		<style type="text/css" id="wp-custom-css">.wp-block-navigation .wp-block-navigation-item__label {
+   color: #fff;
+}
+.current-menu-item{
+		border-bottom: 3px solid #fcb900;
+}</style>
+		    </head>
+    <body class="wp-singular post-template-default single single-post postid-1 single-format-standard wp-custom-logo wp-theme-codenskills_wp_theme">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TLB6W42V" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+    <header class="container-fluid">
+        <a href="/" class="fs-1 fw-bold logo-text">CodeNskills</a>
+        <nav>
+            <ul id="menu-header" class="d-flex gap-3">
+<li id="menu-item-17" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-17"><a href="/">Home</a></li>
+<li id="menu-item-13" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-13"><a href="/category/javascript/">Javascript</a></li>
+<li id="menu-item-14" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-14"><a href="/category/jquery/">jQuery</a></li>
+<li id="menu-item-15" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-15"><a href="/category/php/">PHP</a></li>
+</ul>        </nav>
+    </header>
+    
+
+<section class="container mt-5">
+    <div class="row">
+        <div class="col-lg-8 mx-auto">
+            <article class="post">
+                <h1>How to Force Redirect HTTP to HTTPS in WordPress via .htaccess</h1>
+
+                
+                <div class="post-content mt-4">
+                                            
+<p>In today’s internet landscape, security is more important than ever. One of the easiest and most effective ways to ensure that your website is secure is by implementing HTTPS (Hypertext Transfer Protocol Secure). HTTPS encrypts the data sent between the server and the client, ensuring that sensitive information such as passwords, personal data, and credit card details are transmitted securely. Websites that use HTTPS are favored by search engines and gain a ranking boost, while users are reassured by the “padlock” icon in their browser’s address bar.</p>
+
+
+
+<p>For WordPress websites, forcing a redirect from HTTP to HTTPS can be done quite easily using the <code>.htaccess</code> file. The <code>.htaccess</code> file is a configuration file used by Apache servers to control various settings, such as URL redirects, security rules, and more. In this blog post, we’ll walk you through the process of forcing HTTP to HTTPS in WordPress via <code>.htaccess</code>, including the necessary code and steps.</p>
+
+
+
+<h2 class="wp-block-heading"><strong>Why Use HTTPS and Force Redirect HTTP to HTTPS?</strong></h2>
+
+
+
+<p>Before diving into the technical aspects of forcing HTTPS, let’s briefly discuss why you should make the switch to HTTPS if you haven’t already:</p>
+
+
+
+<h3 class="wp-block-heading">1. <strong>Security</strong>
+</h3>
+
+
+
+<p>The most obvious reason for using HTTPS is security. It encrypts data exchanged between the server and the client, ensuring that malicious actors can’t intercept or tamper with sensitive information. This is especially critical if your website handles personal information or processes transactions.</p>
+
+
+
+<h3 class="wp-block-heading">2. <strong>Search Engine Optimization (SEO)</strong>
+</h3>
+
+
+
+<p>Google uses HTTPS as a ranking signal. Websites that use HTTPS may rank higher in search results compared to their HTTP counterparts. By forcing HTTPS, you&#8217;re ensuring that search engines like Google index the secure version of your website.</p>
+
+
+
+<h3 class="wp-block-heading">3. <strong>Trustworthiness and User Confidence</strong>
+</h3>
+
+
+
+<p>Users are more likely to trust websites that use HTTPS, especially if they see the padlock symbol in their browser’s address bar. Without HTTPS, browsers like Google Chrome mark HTTP sites as “Not Secure,” which can discourage visitors from interacting with your site.</p>
+
+
+
+<h3 class="wp-block-heading">4. <strong>Browser Compatibility</strong>
+</h3>
+
+
+
+<p>Most modern browsers now give warning messages when users visit HTTP sites. These warnings often make users hesitant to continue browsing. By redirecting HTTP to HTTPS, you avoid these warnings and ensure a seamless user experience.</p>
+
+
+
+<h2 class="wp-block-heading"><strong>Prerequisites:</strong></h2>
+
+
+
+<p>Before we proceed, ensure that you have the following in place:</p>
+
+
+
+<ol class="wp-block-list">
+<li>
+<strong>SSL Certificate</strong>: To enable HTTPS, you must have an SSL certificate installed on your website. Many web hosting providers offer free SSL certificates through Let’s Encrypt. You can also purchase SSL certificates through various providers like Comodo, Symantec, or GlobalSign.</li>
+
+
+
+<li>
+<strong>Access to .htaccess File</strong>: The <code>.htaccess</code> file is located in your WordPress installation’s root directory. You need to have access to this file in order to configure the necessary redirect rules.</li>
+</ol>
+
+
+
+<h2 class="wp-block-heading"><strong>Steps to Force HTTP to HTTPS in WordPress via .htaccess</strong></h2>
+
+
+
+<p>Once you have your SSL certificate and access to the <code>.htaccess</code> file, the next step is to force a redirect from HTTP to HTTPS. Here’s how you can do it:</p>
+
+
+
+<h3 class="wp-block-heading">1. <strong>Locate the .htaccess File</strong>
+</h3>
+
+
+
+<p>The <code>.htaccess</code> file is typically located in the root directory of your WordPress installation. You can access this file via FTP, SFTP, or through the file manager in your web hosting control panel (cPanel, Plesk, etc.).</p>
+
+
+
+<p>If you don’t see the <code>.htaccess</code> file, it might be hidden by default. You can enable hidden files in your FTP client or file manager to make it visible.</p>
+
+
+
+<h3 class="wp-block-heading">2. <strong>Back Up Your .htaccess File</strong>
+</h3>
+
+
+
+<p>Before making any changes, always back up your <code>.htaccess</code> file. This is a precautionary step in case you make an error, and you need to restore the original file.</p>
+
+
+
+<h3 class="wp-block-heading">3. <strong>Edit the .htaccess File</strong>
+</h3>
+
+
+
+<p>Once you’ve located the <code>.htaccess</code> file and made a backup, you can begin editing it. Open the file in a text editor and add the following code to force a redirect from HTTP to HTTPS.</p>
+
+
+
+<pre class="wp-block-code"><code>&lt;IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+
+RewriteCond %{HTTPS} !=on
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} &#91;L,R=301]
+
+# BEGIN WordPress
+RewriteRule ^index\.php$ - &#91;L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php &#91;L]
+&lt;/IfModule></code></pre>
+
+
+
+<h3 class="wp-block-heading"><strong>Explanation of the Code:</strong></h3>
+
+
+
+<h4 class="wp-block-heading"><strong>1. <code>&lt;IfModule mod_rewrite.c&gt;</code></strong></h4>
+
+
+
+<p>This line checks if the <code>mod_rewrite</code> module is enabled on the server. The <code>mod_rewrite</code> module is necessary for URL rewriting (which is how we handle the HTTP to HTTPS redirection).</p>
+
+
+
+<h4 class="wp-block-heading"><strong>2. <code>RewriteEngine On</code></strong></h4>
+
+
+
+<p>This line enables the rewrite engine, which is required for the rewrite rules to take effect.</p>
+
+
+
+<h4 class="wp-block-heading"><strong>3. <code>RewriteBase /</code></strong></h4>
+
+
+
+<p>The <code>RewriteBase</code> directive is used to specify the base URL for the rewrites. In most cases, this should be set to <code>/</code>, as it applies to the entire site.</p>
+
+
+
+<h4 class="wp-block-heading"><strong>4. <code>RewriteCond %{HTTPS} !=on</code></strong></h4>
+
+
+
+<p>This line checks if the request is not using HTTPS. The <code>%{HTTPS}</code> variable holds the current connection’s protocol. If it is not set to &#8220;on&#8221; (meaning the request is using HTTP), the condition evaluates as true, and the next rule is applied.</p>
+
+
+
+<h4 class="wp-block-heading"><strong>5. <code>RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]</code></strong></h4>
+
+
+
+<p>If the above condition is true (i.e., the request is using HTTP), this rule redirects the user to the HTTPS version of the same URL. The <code>R=301</code> flag signifies that this is a permanent redirect (301), and the <code>L</code> flag tells Apache to stop processing further rules if this rule is matched.</p>
+
+
+
+<h4 class="wp-block-heading"><strong>6. <code># BEGIN WordPress</code></strong></h4>
+
+
+
+<p>This comment marks the beginning of WordPress-specific rewrite rules. WordPress automatically adds its own rewrite rules here, which are responsible for handling permalinks and other URL rewrites.</p>
+
+
+
+<h4 class="wp-block-heading"><strong>7. <code>RewriteRule ^index\.php$ - [L]</code></strong></h4>
+
+
+
+<p>This rule ensures that any requests for <code>index.php</code> are handled by WordPress and not redirected or rewritten.</p>
+
+
+
+<h4 class="wp-block-heading"><strong>8. <code>RewriteCond %{REQUEST_FILENAME} !-f</code> and <code>RewriteCond %{REQUEST_FILENAME} !-d</code></strong></h4>
+
+
+
+<p>These conditions check if the requested file or directory exists on the server. If the requested resource is not a valid file or directory, the request will be sent to WordPress’s <code>index.php</code> file.</p>
+
+
+
+<h4 class="wp-block-heading"><strong>9. <code>RewriteRule . /index.php [L]</code></strong></h4>
+
+
+
+<p>This rule ensures that any requests for non-existent files or directories are routed to WordPress’s <code>index.php</code> file for processing.</p>
+
+
+
+<h3 class="wp-block-heading">4. <strong>Save the .htaccess File</strong>
+</h3>
+
+
+
+<p>Once you’ve added the code, save the <code>.htaccess</code> file. After saving, you’ve successfully configured your website to force a redirect from HTTP to HTTPS.</p>
+
+
+
+<h3 class="wp-block-heading">5. <strong>Test the Redirect</strong>
+</h3>
+
+
+
+<p>To ensure that the redirect is working, visit your website using <code>http://</code> and see if you are automatically redirected to the <code>https://</code> version of the page. For example, visit <code>http://www.yoursite.com</code> and check if it redirects to <code>https://www.yoursite.com</code>.</p>
+
+
+
+<p>If the redirect works as expected, your site is now fully set up to use HTTPS.</p>
+
+
+
+<h2 class="wp-block-heading"><strong>Common Issues and Troubleshooting</strong></h2>
+
+
+
+<p>While forcing the HTTP to HTTPS redirect via <code>.htaccess</code> is generally straightforward, there are some issues you may encounter. Here are a few common problems and solutions:</p>
+
+
+
+<h3 class="wp-block-heading">1. <strong>Infinite Redirect Loop</strong>
+</h3>
+
+
+
+<p>An infinite redirect loop can occur if there are conflicting rules in the <code>.htaccess</code> file. Make sure that you don’t have any other redirect rules that conflict with the ones we added.</p>
+
+
+
+<h3 class="wp-block-heading">2. <strong>Mixed Content Issues</strong>
+</h3>
+
+
+
+<p>When you switch to HTTPS, you may encounter mixed content issues, which happen when some resources (like images, scripts, or stylesheets) are still loaded over HTTP. To fix this, you can:</p>
+
+
+
+<ul class="wp-block-list">
+<li>Update your WordPress settings to use <code>https://</code> for the site URL and home URL.</li>
+
+
+
+<li>Manually update URLs in your content or database.</li>
+
+
+
+<li>Use a plugin like “Better Search Replace” to replace all instances of <code>http://</code> with <code>https://</code>.</li>
+</ul>
+
+
+
+<h3 class="wp-block-heading">3. <strong>SSL Certificate Not Installed</strong>
+</h3>
+
+
+
+<p>If your SSL certificate is not installed properly, the browser may show a security warning even if the redirect is working. Ensure that your SSL certificate is correctly installed by checking with your hosting provider.</p>
+
+
+
+<h2 class="wp-block-heading"><strong>Conclusion</strong></h2>
+
+
+
+<p>Forcing a redirect from HTTP to HTTPS in WordPress is a crucial step to ensure the security, SEO, and user confidence of your website. By modifying the <code>.htaccess</code> file, you can easily ensure that all visitors are redirected to the secure HTTPS version of your site. The code we provided is simple to implement and highly effective.</p>
+
+
+
+<p>Once you’ve made the change, be sure to test it thoroughly and check for any issues such as mixed content. If you encounter any problems, refer to the troubleshooting section to resolve common issues.</p>
+
+
+
+<p>By following these steps, you’ll enhance the security of your website, improve its search engine ranking, and provide a better experience for your users.</p>
+
+
+
+<figure class="wp-block-image size-large"><img decoding="async" src="/wp-content/uploads/2020/06/http-to-https-in-wordpress-by-htaccess.png" alt="how-to-force-redirect-http-to-https-in-wordpress-by-htaccess" class="wp-image-6" title="how-to-force-redirect-http-to-https-in-wordpress-by-htaccess"></figure>
+
+
+
+<p><strong>Note: Before making changes to your .htaccess file, it&#8217;s recommended to create a backup copy of the file in case anything goes wrong.</strong></p>
+
+
+
+<div class="wp-block-buttons is-layout-flex wp-block-buttons-is-layout-flex">
+<div class="wp-block-button"><a class="wp-block-button__link wp-element-button">How to change WordPress URL HTTP to HTTPS from database</a></div>
+</div>
+                                    </div>
+
+                <!-- Post Meta -->
+                <div class="post-meta mt-4">
+                    <p>Posted on June 1, 2020 in <a href="/category/apache/" rel="category tag">Apache</a>, <a href="/category/php/" rel="category tag">PHP</a></p>
+                </div>
+                <div class="social-share d-flex gap-3">
+                    <!-- LinkedIn Share -->
+                    <a href="https://www.linkedin.com/sharing/share-offsite/?url=%2Fhow-to-force-redirect-http-to-https-in-wordpress-via-htaccess%2F" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-linkedin fa-1x"></i>
+                    </a>
+                
+                    <!-- Facebook Share -->
+                    <a href="https://www.facebook.com/sharer/sharer.php?u=%2Fhow-to-force-redirect-http-to-https-in-wordpress-via-htaccess%2F" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-facebook-square fa-1x"></i>
+                    </a>
+                
+                    <!-- Instagram Profile (Instagram does not support direct sharing) -->
+                    <a href="https://www.instagram.com/codenskills" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-instagram fa-1x"></i>
+                    </a>
+                </div>
+
+                <!-- Comments Section -->
+                <div class="comments-section mt-5">
+                                            <h3 class="mb-4">Leave a Comment</h3>
+                        	<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/how-to-force-redirect-http-to-https-in-wordpress-via-htaccess/#respond" style="display:none;">Cancel reply</a></small>
+</h3>
+<form action="https://codenskills.com/wp-comments-post.php" method="post" id="commentform" class="comment-form">
+<p class="comment-notes"><span id="email-notes">Your email address will not be published.</span> <span class="required-field-message">Required fields are marked <span class="required">*</span></span></p>
+<div class="form-group"><textarea id="comment" name="comment" class="form-control" rows="5" placeholder="Enter your comment here"></textarea></div>
+<div class="form-group"><input id="author" name="author" type="text" class="form-control" placeholder="Your Name"></div>
+<div class="form-group"><input id="email" name="email" type="email" class="form-control" placeholder="Your Email"></div>
+<div class="form-group"><input id="url" name="url" type="url" class="form-control" placeholder="Your Website (optional)"></div>
+<p class="comment-form-cookies-consent"><input id="wp-comment-cookies-consent" name="wp-comment-cookies-consent" type="checkbox" value="yes"> <label for="wp-comment-cookies-consent">Save my name, email, and website in this browser for the next time I comment.</label></p>
+<p class="form-submit"><input name="submit" type="submit" id="submit" class="btn btn-primary" value="Submit Comment"> <input type="hidden" name="comment_post_ID" value="1" id="comment_post_ID">
+<input type="hidden" name="comment_parent" id="comment_parent" value="0">
+</p>    <script type="text/javascript">grecaptcha.ready(function() {
+            grecaptcha.execute('6LfGzF0qAAAAAEl-iJcPpJG3U0zsS7qPD7cfQAe6', {action: 'comment'}).then(function(token) {
+                var recaptchaResponse = document.getElementById('g-recaptcha-response');
+                recaptchaResponse.value = token;
+            });
+        });</script>
+    <input type="hidden" name="g-recaptcha-response" id="g-recaptcha-response">
+    </form>	</div>
+<!-- #respond -->
+	
+                        <!-- Display comments -->
+                        <h4 class="mt-5">Comments</h4>
+                        
+                                    </div>
+
+            </article>
+        </div>
+    </div>
+</section>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    // Find all <pre> elements with the 'wp-block-code' class
+    const codeBlocks = document.querySelectorAll('pre.wp-block-code');
+
+    codeBlocks.forEach(function (block, index) {
+        // Create a container to wrap both the code block and the button
+        const codeWrapper = document.createElement('div');
+        codeWrapper.classList.add('code-wrapper');
+        block.parentNode.insertBefore(codeWrapper, block);
+        codeWrapper.appendChild(block);
+
+        // Create a copy button
+        const copyButton = document.createElement('button');
+        copyButton.innerText = 'Copy';
+        copyButton.classList.add('copy-btn');
+        copyButton.setAttribute('data-code-block', 'code-block-' + index);
+
+        // Insert the button into the wrapper (outside the code block)
+        codeWrapper.appendChild(copyButton);
+
+        // Set an ID for the code block to reference it
+        block.setAttribute('id', 'code-block-' + index);
+
+        // Add copy functionality
+        copyButton.addEventListener('click', function () {
+            const codeText = block.innerText; // Get the code text
+            
+            // Create a temporary textarea to copy the text
+            const tempTextarea = document.createElement('textarea');
+            tempTextarea.value = codeText;
+            document.body.appendChild(tempTextarea);
+            tempTextarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextarea);
+
+            // Change the button text to indicate success
+            copyButton.innerText = 'Copied!';
+            setTimeout(() => {
+                copyButton.innerText = 'Copy';
+            }, 2000); // Reset the button text after 2 seconds
+        });
+    });
+});
+
+</script>
+<!-- Include Font Awesome CSS (Move this to the <head> for better performance) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+<footer class="d-flex justify-content-center align-items-center flex-column text-center">
+    <div class="footer-nav">
+        <ul id="menu-privacy" class="d-flex gap-3 list-unstyled">
+<li id="menu-item-606" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-606"><a href="/about-us/">About Us</a></li>
+<li id="menu-item-607" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-607"><a href="/contact-us/">Contact Us</a></li>
+<li id="menu-item-601" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-601"><a href="/terms/">Terms</a></li>
+<li id="menu-item-602" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-602"><a href="/privacy-policy/">Privacy Policy</a></li>
+<li id="menu-item-714" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-714"><a href="/sitemap/">Sitemap</a></li>
+</ul>    </div>
+
+    <p>&copy; 2025 CodeNskills. All rights reserved.  
+        <a href="https://yashvirpal.com/" target="_blank" rel="noopener noreferrer">Yashvir Pal</a>
+    </p>
+
+    <!-- Social Media Links -->
+    <!-- Social Media Links -->
+<div class="social-links d-flex gap-3">
+    <!-- LinkedIn -->
+    <a href="https://www.linkedin.com/company/codenskillsofficial" target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-linkedin fa-1x"></i>
+    </a>
+
+    <!-- Facebook -->
+    <a href="https://www.facebook.com/codenskillsofficial" target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-facebook-square fa-1x"></i>
+    </a>
+
+    <!-- Instagram -->
+    <a href="https://www.instagram.com/codenskillsofficial" target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-instagram fa-1x"></i>
+    </a>
+    <a href="https://x.com/codenskills" target="_blank" rel="noopener noreferrer">
+        <i class="fab fa-twitter fa-1x"></i>
+    </a>
+
+</div>
+<!--     <div class="social-share d-flex gap-3">
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://codenskills.com" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-linkedin fa-2x"></i>
+        </a>
+        <a href="https://www.facebook.com/sharer/sharer.php?u=https://codenskills.com" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-facebook-square fa-2x"></i>
+        </a>
+        <a href="https://www.instagram.com/codenskills" target="_blank" rel="noopener noreferrer">
+            <i class="fab fa-instagram fa-2x"></i>
+        </a>
+    </div> -->
+</footer>
+
+
+
+
+    <script type="speculationrules">{"prefetch":[{"source":"document","where":{"and":[{"href_matches":"\/*"},{"not":{"href_matches":["\/wp-*.php","\/wp-admin\/*","\/wp-content\/uploads\/*","\/wp-content\/*","\/wp-content\/plugins\/*","\/wp-content\/themes\/codenskills_wp_theme\/*","\/*\\?(.+)"]}},{"not":{"selector_matches":"a[rel~=\"nofollow\"]"}},{"not":{"selector_matches":".no-prefetch, .no-prefetch a"}}]},"eagerness":"conservative"}]}</script>
+<script type="text/javascript" src="/wp-includes/js/dist/hooks.min.js?ver=4d63a3d491d11ffd8ac6" id="wp-hooks-js"></script>
+<script type="text/javascript" src="/wp-includes/js/dist/i18n.min.js?ver=5e580eb46a90c2b997e6" id="wp-i18n-js"></script>
+<script type="text/javascript" id="wp-i18n-js-after">
+/* <![CDATA[ */
+wp.i18n.setLocaleData( { 'text directionltr': [ 'ltr' ] } );
+/* ]]> */
+</script>
+<script type="text/javascript" src="/wp-content/plugins/contact-form-7/includes/swv/js/index.js?ver=6.0.5" id="swv-js"></script>
+<script type="text/javascript" id="contact-form-7-js-before">
+/* <![CDATA[ */
+var wpcf7 = {
+    "api": {
+        "root": "\/wp-json\/",
+        "namespace": "contact-form-7\/v1"
+    },
+    "cached": 1
+};
+/* ]]> */
+</script>
+<script type="text/javascript" src="/wp-content/plugins/contact-form-7/includes/js/index.js?ver=6.0.5" id="contact-form-7-js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" id="bootstrap-js-js"></script>
+<script type="text/javascript" src="https://www.google.com/recaptcha/api.js?render=6LfGzF0qAAAAAEl-iJcPpJG3U0zsS7qPD7cfQAe6&amp;ver=3.0" id="google-recaptcha-js"></script>
+<script type="text/javascript" src="/wp-includes/js/dist/vendor/wp-polyfill.min.js?ver=3.15.0" id="wp-polyfill-js"></script>
+<script type="text/javascript" id="wpcf7-recaptcha-js-before">
+/* <![CDATA[ */
+var wpcf7_recaptcha = {
+    "sitekey": "6LfGzF0qAAAAAEl-iJcPpJG3U0zsS7qPD7cfQAe6",
+    "actions": {
+        "homepage": "homepage",
+        "contactform": "contactform"
+    }
+};
+/* ]]> */
+</script>
+<script type="text/javascript" src="/wp-content/plugins/contact-form-7/modules/recaptcha/index.js?ver=6.0.5" id="wpcf7-recaptcha-js"></script>
+    </body>
+    
+    
+
+
+
+<!-- Page cached by LiteSpeed Cache 7.0.0.1 on 2025-07-15 11:29:37 -->
+</html>

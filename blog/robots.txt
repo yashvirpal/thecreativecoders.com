@@ -1,0 +1,10 @@
+User-agent: *
+Disallow: /wp-admin/
+Allow: /wp-admin/admin-ajax.php
+Disallow: /feed/
+
+Disallow: /html-sample/
+Disallow: /htmls/
+
+Sitemap: https://codenskills.com/sitemap.xml
+Sitemap: https://codenskills.com/sitemap.rss
