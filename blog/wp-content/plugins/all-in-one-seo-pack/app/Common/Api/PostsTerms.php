@@ -122,7 +122,8 @@ class PostsTerms {
 	/**
 	 * Get post data for fetch requests
 	 *
-	 * @since 4.0.0
+	 * @since   4.0.0
+	 * @version 4.8.3 Changes the return value to include only the Vue data.
 	 *
 	 * @param  \WP_REST_Request  $request The REST Request
 	 * @return \WP_REST_Response          The response.
@@ -137,17 +138,9 @@ class PostsTerms {
 			], 400 );
 		}
 
-		$thePost = Models\Post::getPost( $args['postId'] );
-
 		return new \WP_REST_Response( [
-			'success'  => true,
-			'post'     => $thePost,
-			'postData' => [
-				'parsedTitle'       => aioseo()->tags->replaceTags( $thePost->title, $args['postId'] ),
-				'parsedDescription' => aioseo()->tags->replaceTags( $thePost->description, $args['postId'] ),
-				'content'           => aioseo()->helpers->theContent( self::getAnalysisContent( $args['postId'] ) ),
-				'slug'              => get_post_field( 'post_name', $args['postId'] )
-			]
+			'success' => true,
+			'data'    => aioseo()->helpers->getVueData( 'post', $args['postId'], $args['integrationSlug'] ?? null )
 		], 200 );
 	}
 
@@ -303,7 +296,6 @@ class PostsTerms {
 		}
 
 		$aioseoPost = Models\Post::getPost( $postId );
-		$aioseoData = json_decode( wp_json_encode( $aioseoPost ), true );
 
 		if ( $isMedia ) {
 			wp_update_post(
@@ -315,7 +307,13 @@ class PostsTerms {
 			update_post_meta( $postId, '_wp_attachment_image_alt', sanitize_text_field( $body['imageAltTag'] ) );
 		}
 
-		Models\Post::savePost( $postId, array_replace( $aioseoData, $body ) );
+		$aioseoPost->title       = $body['title'];
+		$aioseoPost->description = $body['description'];
+		$aioseoPost->updated     = gmdate( 'Y-m-d H:i:s' );
+		$aioseoPost->save();
+
+		// Trigger the action hook so we can create a revision.
+		do_action( 'aioseo_insert_post', $postId );
 
 		$lastError = aioseo()->core->db->lastError();
 		if ( ! empty( $lastError ) ) {

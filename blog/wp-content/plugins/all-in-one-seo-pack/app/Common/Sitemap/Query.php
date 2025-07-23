@@ -19,9 +19,9 @@ class Query {
 	 *
 	 * @since 4.0.0
 	 *
-	 * @param  mixed $postTypes      The post type(s). Either a singular string or an array of strings.
-	 * @param  array $additionalArgs Any additional arguments for the post query.
-	 * @return array|int             The post objects or the post count.
+	 * @param  mixed            $postTypes      The post type(s). Either a singular string or an array of strings.
+	 * @param  array            $additionalArgs Any additional arguments for the post query.
+	 * @return array[object|int]                The post objects or the post count.
 	 */
 	public function posts( $postTypes, $additionalArgs = [] ) {
 		$includedPostTypes = $postTypes;
@@ -38,34 +38,47 @@ class Query {
 		}
 
 		// Set defaults.
-		$fields  = '`p`.`ID`, `p`.`post_title`, `p`.`post_content`, `p`.`post_excerpt`, `p`.`post_type`, `p`.`post_password`, ';
-		$fields .= '`p`.`post_parent`, `p`.`post_date_gmt`, `p`.`post_modified_gmt`, `ap`.`priority`, `ap`.`frequency`';
-		$maxAge  = '';
+		$maxAge = '';
+		$fields = implode( ', ', [
+			'p.ID',
+			'p.post_excerpt',
+			'p.post_type',
+			'p.post_password',
+			'p.post_parent',
+			'p.post_date_gmt',
+			'p.post_modified_gmt',
+			'ap.priority',
+			'ap.frequency'
+		] );
 
-		if ( ! aioseo()->sitemap->helpers->excludeImages() ) {
-			$fields .= ', `ap`.`images`';
+		if ( in_array( aioseo()->sitemap->type, [ 'html', 'rss', 'llms' ], true ) ) {
+			$fields .= ', p.post_title';
+		}
+
+		if ( 'general' !== aioseo()->sitemap->type || ! aioseo()->sitemap->helpers->excludeImages() ) {
+			$fields .= ', ap.images';
 		}
 
 		// Order by highest priority first (highest priority at the top),
 		// then by post modified date (most recently updated at the top).
-		$orderBy = '`ap`.`priority` DESC, `p`.`post_modified_gmt` DESC';
+		$orderBy = 'ap.priority DESC, p.post_modified_gmt DESC';
 
 		// Override defaults if passed as additional arg.
 		foreach ( $additionalArgs as $name => $value ) {
 			// Attachments need to be fetched with all their fields because we need to get their post parent further down the line.
 			$$name = esc_sql( $value );
 			if ( 'root' === $name && $value && 'attachment' !== $includedPostTypes ) {
-				$fields = '`p`.`ID`, `p`.`post_type`';
+				$fields = 'p.ID, p.post_type';
 			}
 			if ( 'count' === $name && $value ) {
-				$fields = 'count(`p`.`ID`) as total';
+				$fields = 'count(p.ID) as total';
 			}
 		}
 
 		$query = aioseo()->core->db
 			->start( aioseo()->core->db->db->posts . ' as p', true )
 			->select( $fields )
-			->leftJoin( 'aioseo_posts as ap', '`ap`.`post_id` = `p`.`ID`' )
+			->leftJoin( 'aioseo_posts as ap', 'ap.post_id = p.ID' )
 			->where( 'p.post_status', 'attachment' === $includedPostTypes ? 'inherit' : 'publish' )
 			->whereRaw( "p.post_type IN ( '$includedPostTypes' )" );
 
@@ -157,7 +170,7 @@ class Query {
 			}
 		}
 
-		$query->orderBy( $orderBy );
+		$query->orderByRaw( $orderBy );
 		$query = $this->filterPostQuery( $query, $postTypes );
 
 		// Return the total if we are just counting the posts.
@@ -300,14 +313,19 @@ class Query {
 	 *
 	 * @since 4.0.0
 	 *
-	 * @param  string    $taxonomy       The taxonomy.
-	 * @param  array     $additionalArgs Any additional arguments for the term query.
-	 * @return array|int                 The term objects or the term count.
+	 * @param  string           $taxonomy       The taxonomy.
+	 * @param  array            $additionalArgs Any additional arguments for the term query.
+	 * @return array[object|int]                The term objects or the term count.
 	 */
 	public function terms( $taxonomy, $additionalArgs = [] ) {
 		// Set defaults.
 		$fields  = 't.term_id';
 		$offset  = aioseo()->sitemap->offset;
+
+		// Include term name for llms sitemap type
+		if ( 'llms' === aioseo()->sitemap->type ) {
+			$fields .= ', t.name';
+		}
 
 		// Override defaults if passed as additional arg.
 		foreach ( $additionalArgs as $name => $value ) {
@@ -373,7 +391,7 @@ class Query {
 				->result();
 		}
 
-		$terms = $query->orderBy( '`t`.`term_id` ASC' )
+		$terms = $query->orderBy( 't.term_id ASC' )
 			->run()
 			->result();
 

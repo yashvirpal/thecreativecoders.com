@@ -16,6 +16,7 @@ use AIOSEO\Plugin\Common\Traits\Helpers as TraitHelpers;
 class Helpers {
 	use TraitHelpers\Api;
 	use TraitHelpers\Arrays;
+	use TraitHelpers\Buffer;
 	use TraitHelpers\Constants;
 	use TraitHelpers\Deprecated;
 	use TraitHelpers\DateTime;
@@ -233,6 +234,13 @@ class Helpers {
 				$sanitized = [];
 				foreach ( (array) $value as $child ) {
 					$sanitized[] = aioseo()->helpers->sanitizeOption( $child );
+				}
+
+				return $sanitized;
+			case 'object':
+				$sanitized = [];
+				foreach ( (array) $value as $key => $child ) {
+					$sanitized[ $key ] = aioseo()->helpers->sanitizeOption( $child );
 				}
 
 				return $sanitized;

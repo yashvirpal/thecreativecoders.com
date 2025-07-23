@@ -99,7 +99,6 @@ class VueSettings {
 			'localBusinessMapsApiKey'      => true,
 			'localBusinessMapsSettings'    => true,
 			'robotsEditor'                 => true,
-			'badBotBlocker'                => true,
 			'databaseTools'                => true,
 			'htaccessEditor'               => true,
 			'databaseToolsLogs'            => true,
@@ -119,6 +118,7 @@ class VueSettings {
 			'404Settings'                  => true,
 			'userProfiles'                 => true,
 			'queryArgLogs'                 => true,
+			'aiContentSettings'            => true,
 			'writingAssistantSettings'     => true,
 			'writingAssistantCta'          => true
 		],
@@ -154,6 +154,7 @@ class VueSettings {
 			'searchStatisticsKrtKeywords'            => 20,
 			'searchStatisticsKrtGroups'              => 20,
 			'searchStatisticsKrtGroupsTableKeywords' => 10,
+			'searchStatisticsIndexStatus'            => 20,
 			'queryArgs'                              => 20
 		],
 		'semrushCountry'  => 'US'

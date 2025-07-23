@@ -189,7 +189,10 @@ class Helpers {
 		$memory    = $this->performance['memory'];
 		$type      = aioseo()->sitemap->type;
 		$indexName = aioseo()->sitemap->indexName;
+
+		// phpcs:disable WordPress.PHP.DevelopmentFunctions
 		error_log( wp_json_encode( "$indexName index of $type sitemap generated in $time seconds using a maximum of $memory mb of memory." ) );
+		// phpcs:enable WordPress.PHP.DevelopmentFunctions
 	}
 
 	/**
@@ -350,7 +353,7 @@ class Helpers {
 	 * @return string       The formatted datetime.
 	 */
 	public function lastModifiedAdditionalPage( $page ) {
-		return gmdate( 'c', strtotime( (string) $page->lastModified ) );
+		return aioseo()->helpers->isValidDate( $page->lastModified ) ? gmdate( 'c', strtotime( $page->lastModified ) ) : '';
 	}
 
 	/**
@@ -398,6 +401,11 @@ class Helpers {
 	 */
 	private function excludedObjectIds( $option ) {
 		$type = aioseo()->sitemap->type;
+
+		if ( 'llms' === $type ) {
+			return '';
+		}
+
 		// The RSS Sitemap needs to exclude whatever is excluded in the general sitemap.
 		if ( 'rss' === $type ) {
 			$type = 'general';

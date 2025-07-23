@@ -131,15 +131,6 @@ abstract class AIOSEOAbstract {
 	public $blocks = null;
 
 	/**
-	 * BadBotBlocker class instance.
-	 *
-	 * @since 4.2.7
-	 *
-	 * @var \AIOSEO\Plugin\Common\Tools\BadBotBlocker
-	 */
-	public $badBotBlocker = null;
-
-	/**
 	 * Breadcrumbs class instance.
 	 *
 	 * @since 4.2.7
@@ -607,4 +598,13 @@ abstract class AIOSEOAbstract {
 	 * @var \AIOSEO\Plugin\Common\WritingAssistant\WritingAssistant
 	 */
 	public $writingAssistant = null;
+
+	/**
+	 * Llms class instance.
+	 *
+	 * @since 4.8.4
+	 *
+	 * @var \AIOSEO\Plugin\Common\Llms\Llms
+	 */
+	public $llms = null;
 }

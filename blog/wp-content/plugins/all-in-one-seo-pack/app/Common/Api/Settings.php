@@ -25,17 +25,26 @@ class Settings {
 	public static $importFile = [];
 
 	/**
-	 * Update the settings.
+	 * Retrieves the plugin options.
 	 *
 	 * @since 4.0.0
 	 *
-	 * @return \WP_REST_Response The response.
+	 * @param  \WP_REST_Request  $request The REST Request.
+	 * @return \WP_REST_Response          The response containing all plugin options.
 	 */
-	public static function getOptions() {
-		return new \WP_REST_Response( [
-			'options'  => aioseo()->options->all(),
-			'settings' => aioseo()->settings->all()
-		], 200 );
+	public static function getOptions( $request ) {
+		$siteId = (int) $request->get_param( 'siteId' );
+		if ( $siteId ) {
+			aioseo()->helpers->switchToBlog( $siteId );
+
+			// Re-initialize the options for this site.
+			aioseo()->options->init();
+		}
+
+		return new \WP_REST_Response([
+			'success' => true,
+			'options' => aioseo()->options->all()
+		], 200);
 	}
 
 	/**
@@ -216,9 +225,6 @@ class Settings {
 					aioseo()->options->tools->robots->reset();
 					aioseo()->options->searchAppearance->advanced->unwantedBots->reset();
 					aioseo()->options->searchAppearance->advanced->searchCleanup->settings->preventCrawling = false;
-					break;
-				case 'blocker':
-					aioseo()->options->deprecated->tools->blocker->reset();
 					break;
 				default:
 					if ( 'searchAppearance' === $setting ) {
@@ -463,6 +469,7 @@ class Settings {
 		unset( $rows[0] );
 
 		$jsonFields = [
+			'ai',
 			'keywords',
 			'keyphrases',
 			'page_analysis',
@@ -470,7 +477,6 @@ class Settings {
 			'og_article_tags',
 			'schema',
 			'options',
-			'open_ai',
 			'videos'
 		];
 
@@ -599,7 +605,7 @@ class Settings {
 					'link_suggestions_scan_date' => '',
 					'local_seo'                  => '',
 					'options'                    => '',
-					'open_ai'                    => ''
+					'ai'                         => ''
 				];
 
 				$notAllowed = array_merge( aioseo()->access->getNotAllowedPageFields(), $fieldsToExclude );

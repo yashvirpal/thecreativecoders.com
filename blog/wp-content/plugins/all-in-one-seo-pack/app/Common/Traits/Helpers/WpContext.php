@@ -49,13 +49,20 @@ trait WpContext {
 	 *
 	 * @since 4.0.0
 	 *
-	 * @return int|null The home page ID.
+	 * @return int|false The home page ID.
 	 */
 	public function getHomePageId() {
+		static $homeId = null;
+		if ( null !== $homeId ) {
+			return $homeId;
+		}
+
 		$pageShowOnFront = ( 'page' === get_option( 'show_on_front' ) );
 		$pageOnFrontId   = get_option( 'page_on_front' );
 
-		return $pageShowOnFront && $pageOnFrontId ? (int) $pageOnFrontId : null;
+		$homeId = $pageShowOnFront && $pageOnFrontId ? (int) $pageOnFrontId : false;
+
+		return $homeId;
 	}
 
 	/**
@@ -215,7 +222,7 @@ trait WpContext {
 		$postId = apply_filters( 'aioseo_get_post_id', $postId );
 
 		// We need to check these conditions and cannot always return get_post() because we'll return the first post on archive pages (dynamic homepage, term pages, etc.).
-		// https://github.com/awesomemotive/aioseo/issues/2419
+
 		if (
 			$this->isScreenBase( 'post' ) ||
 			$postId ||
@@ -1037,5 +1044,45 @@ trait WpContext {
 		return aioseo()->options->searchAppearance->global->schema->websiteName
 			? aioseo()->tags->replaceTags( aioseo()->options->searchAppearance->global->schema->websiteName )
 			: aioseo()->helpers->decodeHtmlEntities( get_bloginfo( 'name' ) );
+	}
+
+	/**
+	 * Polyfill for {@see wp_attachment_is()} since it uses `str_starts_with()` available only in PHP 8+ or WP 5.9+.
+	 *
+	 * @since 4.8.5
+	 *
+	 * @param  string       $type Attachment type. Accepts `image`, `audio`, `video`, or a file extension.
+	 * @param  int|\WP_Post $post Optional. Attachment ID or object. Default is global $post.
+	 * @return bool               True if an accepted type or a matching file extension, false otherwise.
+	 */
+	public function attachmentIs( $type, $post = null ) {
+		$post = get_post( $post );
+		$file = $post ? get_attached_file( $post->ID ) : false;
+		if ( ! $type || ! $post || ! $file ) {
+			return false;
+		}
+
+		if ( false !== stripos( $post->post_mime_type, $type . '/' ) ) {
+			return true;
+		}
+
+		$check = wp_check_filetype( $file );
+		if ( empty( $check['ext'] ) ) {
+			return false;
+		}
+
+		$ext = strtolower( $check['ext'] );
+
+		if ( ! in_array( $type, [ 'image', 'audio', 'video' ], true ) ) {
+			return strtolower( $type ) === $ext;
+		}
+
+		$extensionMap = [
+			'image' => [ 'jpg', 'jpeg', 'jpe', 'gif', 'png', 'webp', 'avif', 'heic' ],
+			'audio' => wp_get_audio_extensions(),
+			'video' => wp_get_video_extensions()
+		];
+
+		return in_array( $ext, $extensionMap[ $type ] ?? [], true );
 	}
 }

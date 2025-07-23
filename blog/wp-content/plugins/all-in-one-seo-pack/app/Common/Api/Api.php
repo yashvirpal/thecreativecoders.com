@@ -42,9 +42,18 @@ class Api {
 			'writing-assistant/keyword/(?P<postId>[\d]+)' => [ 'callback' => [ 'WritingAssistant', 'getPostKeyword' ], 'access' => 'aioseo_page_writing_assistant_settings' ],
 			'writing-assistant/user-info'                 => [ 'callback' => [ 'WritingAssistant', 'getUserInfo' ], 'access' => 'aioseo_page_writing_assistant_settings' ],
 			'writing-assistant/user-options'              => [ 'callback' => [ 'WritingAssistant', 'getUserOptions' ], 'access' => 'aioseo_page_writing_assistant_settings' ],
-			'writing-assistant/report-history'            => [ 'callback' => [ 'WritingAssistant', 'getReportHistory' ], 'access' => 'aioseo_page_writing_assistant_settings' ]
+			'writing-assistant/report-history'            => [ 'callback' => [ 'WritingAssistant', 'getReportHistory' ], 'access' => 'aioseo_page_writing_assistant_settings' ],
+			'seo-analysis/homeresults'                    => [ 'callback' => [ 'Analyze', 'getHomeResults' ], 'access' => 'aioseo_seo_analysis_settings' ],
+			'seo-analysis/competitors'                    => [ 'callback' => [ 'Analyze', 'getCompetitorsResults' ], 'access' => 'aioseo_seo_analysis_settings' ]
 		],
 		'POST'   => [
+			'ai/auth'                                               => [ 'callback' => [ 'Ai', 'storeAccessToken' ], 'access' => 'aioseo_page_ai_content_settings' ],
+			'ai/meta/title'                                         => [ 'callback' => [ 'Ai', 'generateTitles' ], 'access' => 'aioseo_page_ai_content_settings' ],
+			'ai/meta/description'                                   => [ 'callback' => [ 'Ai', 'generateDescriptions' ], 'access' => 'aioseo_page_ai_content_settings' ],
+			'ai/faqs'                                               => [ 'callback' => [ 'Ai', 'generateFaqs' ], 'access' => 'aioseo_page_ai_content_settings' ],
+			'ai/key-points'                                         => [ 'callback' => [ 'Ai', 'generateKeyPoints' ], 'access' => 'aioseo_page_ai_content_settings' ],
+			'ai/social-posts'                                       => [ 'callback' => [ 'Ai', 'generateSocialPosts' ], 'access' => 'aioseo_page_ai_content_settings' ],
+			'ai/deactivate'                                         => [ 'callback' => [ 'Ai', 'deactivate' ], 'access' => 'aioseo_page_ai_content_settings' ],
 			'htaccess'                                              => [ 'callback' => [ 'Tools', 'saveHtaccess' ], 'access' => 'aioseo_tools_settings' ],
 			'post'                                                  => [
 				'callback' => [ 'PostsTerms', 'updatePosts' ],

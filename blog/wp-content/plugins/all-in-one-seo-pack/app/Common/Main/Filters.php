@@ -59,6 +59,8 @@ abstract class Filters {
 			add_filter( 'weglot_active_translation_before_treat_page', '__return_false' );
 		}
 
+		add_filter( 'wpml_tm_adjust_translation_fields', [ $this, 'defineMetaFieldsForWpml' ] );
+
 		if ( isset( $_SERVER['REQUEST_URI'] ) && preg_match( '#(\.xml)$#i', (string) sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) ) ) {
 			add_filter( 'jetpack_boost_should_defer_js', '__return_false' );
 		}
@@ -137,7 +139,7 @@ abstract class Filters {
 	 * Resets the current user if bbPress is active.
 	 * We have to do this because our calls to wp_get_current_user() set the current user early and this breaks core functionality in bbPress.
 	 *
-	 * @link https://github.com/awesomemotive/aioseo/issues/22300
+
 	 *
 	 * @since 4.1.5
 	 *
@@ -153,7 +155,7 @@ abstract class Filters {
 	/**
 	 * Removes the bbPress title filter when adding a new reply with empty title to avoid fatal error.
 	 *
-	 * @link https://github.com/awesomemotive/aioseo/issues/4183
+
 	 *
 	 * @since 4.3.1
 	 *
@@ -601,5 +603,34 @@ abstract class Filters {
 		}
 
 		return $tables;
+	}
+
+	/**
+	 * Defines specific meta fields for WPML so character limits can be applied when auto-translating fields.
+	 *
+	 * @since 4.8.3.2
+	 *
+	 * @param  array $fields The fields.
+	 * @return array         The modified fields.
+	 */
+	public function defineMetaFieldsForWpml( $fields ) {
+		foreach ( $fields as &$field ) {
+			if ( empty( $field['field_type'] ) ) {
+				continue;
+			}
+
+			$fieldKey = strtolower( preg_replace( '/^(field-)(.*)(-0)$/', '$2', $field['field_type'] ) );
+
+			switch ( $fieldKey ) {
+				case '_aioseo_title':
+					$field['purpose'] = 'seo_title';
+					break;
+				case '_aioseo_description':
+					$field['purpose'] = 'seo_meta_description';
+					break;
+			}
+		}
+
+		return $fields;
 	}
 }

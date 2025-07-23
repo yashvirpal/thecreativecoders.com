@@ -420,7 +420,7 @@ trait ThirdParty {
 					$imageUrl = is_array( $field['value'] ) ? $field['value']['url'] : $field['value'];
 					$imageUrl = is_numeric( $imageUrl ) ? wp_get_attachment_image_url( $imageUrl ) : $imageUrl;
 
-					$value = "<img src='$imageUrl' />";
+					$value = "<img src='$imageUrl' />"; // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
 					break;
 				case 'gallery':
 					$imageUrl = $field['value'];
@@ -437,7 +437,7 @@ trait ThirdParty {
 					// Image ID format.
 					$imageUrl = is_numeric( $imageUrl ) ? wp_get_attachment_image_url( $imageUrl ) : $imageUrl;
 
-					$value = ! empty( $imageUrl ) ? "<img src='{$imageUrl}' />" : '';
+					$value = ! empty( $imageUrl ) ? "<img src='{$imageUrl}' />" : ''; // phpcs:ignore PluginCheck.CodeAnalysis.ImageFunctions.NonEnqueuedImage
 					break;
 				case 'link':
 					$value = make_clickable( $field['value']['url'] ?? $field['value'] ?? '' );
@@ -736,7 +736,7 @@ trait ThirdParty {
 		}
 
 		// AMP plugin requires the `wp` action to be called to function properly, otherwise, it will throw warnings.
-		// https://github.com/awesomemotive/aioseo/issues/6056
+
 		if ( did_action( 'wp' ) ) {
 			// Check for the "AMP" plugin.
 			if ( function_exists( 'amp_is_request' ) ) {
@@ -848,7 +848,8 @@ trait ThirdParty {
 	public function isPluginActive( $slug ) {
 		$mapped = [
 			'buddypress' => 'buddypress/bp-loader.php',
-			'bbpress'    => 'bbpress/bbpress.php'
+			'bbpress'    => 'bbpress/bbpress.php',
+			'weglot'     => 'weglot/weglot.php'
 		];
 
 		static $output = [];
