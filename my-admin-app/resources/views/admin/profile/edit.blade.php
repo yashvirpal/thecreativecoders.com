@@ -1,6 +1,6 @@
 <x-admin.layout :breadcrumbs="[
     ['label' => 'Dashboard', 'url' => route('admin.dashboard')],
-    ['label' => 'Profile', 'url' => route('admin.profile.edit')],
+  //  ['label' => 'Profile', 'url' => route('admin.profile.edit')],
     ['label' => 'Edit Profile']
 ]">
     <div class="max-w-xll mx-auto p-6 bg-white rounded shadow">
