@@ -36,10 +36,10 @@
         </a>
     </nav>
     {{-- Logout --}}
-    <form method="POST" action="{{ route('admin.logout') }}" class="mt-auto pt-4 border-t border-gray-700">
+    <form method="POST" action="{{ route('admin.logout') }}" class="mt-auto border-t border-red-500">
         @csrf
         <button type="submit"
-            class="flex items-center gap-3 p-2 w-full rounded hover:bg-gray-700 transition duration-200">
+            class="flex items-center gap-3 p-2 w-full rounded bg-red-500 transition duration-200">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                 stroke-linejoin="round" viewBox="0 0 24 24">
                 <path d="M17 16l4-4m0 0l-4-4m4 4H7" />
