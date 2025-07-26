@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('role')->default('admin'); // super_admin, admin, manager, author
             $table->json('permissions')->nullable();  // permissions as JSON array
+            $table->string('avatar')->nullable();  // Avatar path
             $table->rememberToken();
             $table->timestamps();
         });

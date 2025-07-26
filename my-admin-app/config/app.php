@@ -1,4 +1,5 @@
 <?php
+//use Illuminate\Support\Facades\Facade;
 
 return [
 
@@ -122,5 +123,20 @@ return [
         'driver' => env('APP_MAINTENANCE_DRIVER', 'file'),
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
+    
+    /*|--------------------------------------------------------------------------
+    | Application Aliases
+    |--------------------------------------------------------------------------
+    |
+    | These aliases will be registered when the application is started. You
+    | can add your own aliases here to make them available throughout the                           
+    | application. The aliases will be registered in the container.
+    |
+    */
+
+
+    // 'aliases' => Facade::defaultAliases()->merge([
+    //     'Image' => Intervention\Image\Facades\Image::class,
+    // ])->toArray(),
 
 ];
