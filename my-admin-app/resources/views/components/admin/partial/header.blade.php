@@ -21,16 +21,22 @@
             <button @click="open = !open" class="flex items-center space-x-2 focus:outline-none">
                 <img src="https://ui-avatars.com/api/?name={{ urlencode($admin->name) }}&background=4B5563&color=fff&size=64"
                     alt="Avatar" class="w-8 h-8 rounded-full" />
-                <span class="text-sm text-gray-700 hidden md:inline">Welcome, {{ $admin->name }}</span>
-                <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" stroke-width="2"
+
+                {{-- <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" stroke-width="2"
                     viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M19 9l-7 7-7-7" />
-                </svg>
+                </svg> --}}
             </button>
 
             <!-- Dropdown -->
-            <div x-show="open" @click.away="open = false"
-                class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-50 py-2">
+            <div x-show="open" x-cloak @click.away="open = false" role="menu" aria-orientation="vertical"
+                aria-label="Admin menu" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-50 py-2">
+
+                <a href="javascript:void(0)"
+                    class="block px-4 py-2 text-sm text-center text-gray-700 hover:bg-gray-100">
+                    <span class="text-sm text-gray-700 hidden md:inline">{{ $admin->name }}</span>
+                </a>
+
                 <a href="{{ route('admin.profile.edit') }}"
                     class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
 
@@ -41,6 +47,7 @@
                     </button>
                 </form>
             </div>
+
         </div>
 
     </div>

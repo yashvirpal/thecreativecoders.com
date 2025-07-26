@@ -3,8 +3,8 @@
 
     <!-- App Logo / Title -->
     <div class="h-16 flex items-center justify-center border-b border-gray-700">
-        <span x-show="sidebarOpen" x-cloak class="text-xl font-bold">AdminPanel</span>
-        <span x-show="!sidebarOpen" x-cloak class="text-xl font-bold">AP</span>
+        <span x-show="sidebarOpen" x-cloak class="text-xl font-bold">{{config('app.name')}}</span>
+        <span x-show="!sidebarOpen" x-cloak class="text-xl font-bold">{{ getAppInitials() }}</span>
     </div>
 
     <!-- User Info -->
@@ -14,7 +14,7 @@
             class="w-12 h-12 mx-auto rounded-full" />
         <div x-show="sidebarOpen" x-cloak class="mt-2">
             <div class="font-semibold">{{ $admin->name }}</div>
-            <div class="text-sm text-gray-400">{{ ucfirst($admin->role) }}</div>
+            <div class="text-sm text-gray-400">{{ str_replace("_"," ",ucfirst($admin->role)) }}</div>
         </div>
     </div>
 
