@@ -19,6 +19,8 @@
 </head>
 
 <body x-data="{ sidebarOpen: true }" class="flex h-screen bg-gray-100">
+    @props(['breadcrumbs' => []])
+
     @if(auth('admin')->check())
         <x-admin.partial.sidebar />
     @endif
@@ -31,6 +33,9 @@
 
         <!-- Page Content -->
         <main class="p-6">
+            @if (isset($breadcrumbs) && is_array($breadcrumbs))
+                <x-admin.partial.breadcrumb :items="$breadcrumbs" />
+            @endif
             {{ $slot ?? 'Main content goes here.' }}
         </main>
     </div>
