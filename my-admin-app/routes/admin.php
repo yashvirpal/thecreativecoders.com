@@ -13,11 +13,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::middleware('auth:admin')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit')->middleware('auth:admin');
-
+        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     });
-    
 });
+
 
 //auth('admin')->user()->hasRole('manager')
 //auth('admin')->user()->hasPermission('edit_posts')
