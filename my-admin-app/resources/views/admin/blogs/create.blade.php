@@ -11,88 +11,96 @@
         <form action="{{ route('admin.blogs.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
-            {{-- Title --}}
-            <div class="mb-4">
-                <label for="title" class="block font-semibold mb-1">Title</label>
-                <input type="text" name="title" id="title" value="{{ old('title') }}"
-                    class="w-full border border-gray-300 rounded px-3 py-2">
+            {{-- Title & Slug --}}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label for="title" class="block font-semibold mb-1">Title</label>
+                    <input type="text" name="title" id="title" value="{{ old('title') }}"
+                        class="w-full border border-gray-300 rounded px-3 py-2">
+                </div>
+
+                <div>
+                    <label for="slug" class="block font-semibold mb-1">Slug</label>
+                    <input type="text" name="slug" id="slug" value="{{ old('slug') }}"
+                        class="w-full border border-gray-300 rounded px-3 py-2">
+                </div>
             </div>
 
-            {{-- Slug --}}
-            <div class="mb-4">
-                <label for="slug" class="block font-semibold mb-1">Slug</label>
-                <input type="text" name="slug" id="slug" value="{{ old('slug') }}"
-                    class="w-full border border-gray-300 rounded px-3 py-2">
+
+            {{-- Banner & Banner Alt --}}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label for="banner" class="block font-semibold mb-1">Banner Image</label>
+                    <input type="file" name="banner" id="banner"
+                        class="w-full border border-gray-300 rounded px-3 py-2">
+                </div>
+                <div>
+                    <label for="image" class="block font-semibold mb-1">Featured Image</label>
+                    <input type="file" name="image" id="image" class="w-full border border-gray-300 rounded px-3 py-2">
+                </div>
             </div>
 
-            {{-- Content --}}
+            {{-- Image & Image Alt --}}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+
+                <div>
+                    <label for="banner_alt" class="block font-semibold mb-1">Banner Alt Text</label>
+                    <input type="text" name="banner_alt" id="banner_alt" value="{{ old('banner_alt') }}"
+                        class="w-full border border-gray-300 rounded px-3 py-2">
+                </div>
+                <div>
+                    <label for="image_alt" class="block font-semibold mb-1">Image Alt Text</label>
+                    <input type="text" name="image_alt" id="image_alt" value="{{ old('image_alt') }}"
+                        class="w-full border border-gray-300 rounded px-3 py-2">
+                </div>
+            </div>
+
+            {{-- Content (Full Width) --}}
             <div class="mb-4">
                 <label for="content" class="block font-semibold mb-1">Content</label>
-                <textarea name="content" id="content" rows="5"
-                    class="w-full border border-gray-300 rounded px-3 py-2">{{ old('content') }}</textarea>
+                {{-- <textarea name="content" id="content" rows="5"
+                    class="w-full border border-gray-300 rounded px-3 py-2">{{ old('content') }}</textarea> --}}
+                <input id="content" type="hidden" name="content" value="{{ old('content', $blog->content ?? '') }}">
+                <trix-editor input="content" x-ignore></trix-editor>
+
             </div>
 
-            {{-- Banner --}}
-            <div class="mb-4">
-                <label for="banner" class="block font-semibold mb-1">Banner Image</label>
-                <input type="file" name="banner" id="banner" class="w-full border border-gray-300 rounded px-3 py-2">
+            {{-- Meta Title & Description --}}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label for="meta_title" class="block font-semibold mb-1">Meta Title</label>
+                    <input type="text" name="meta_title" id="meta_title" value="{{ old('meta_title') }}"
+                        class="w-full border border-gray-300 rounded px-3 py-2">
+                </div>
+                <div>
+                    <label for="meta_description" class="block font-semibold mb-1">Meta Description</label>
+                    <input type="text" name="meta_description" id="meta_description"
+                        value="{{ old('meta_description') }}" class="w-full border border-gray-300 rounded px-3 py-2">
+                </div>
             </div>
 
-            {{-- Banner Alt --}}
-            <div class="mb-4">
-                <label for="banner_alt" class="block font-semibold mb-1">Banner Alt Text</label>
-                <input type="text" name="banner_alt" id="banner_alt" value="{{ old('banner_alt') }}"
-                    class="w-full border border-gray-300 rounded px-3 py-2">
+            {{-- Meta Keyword & Status --}}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                    <label for="meta_keyword" class="block font-semibold mb-1">Meta Keywords</label>
+                    <input type="text" name="meta_keyword" id="meta_keyword" value="{{ old('meta_keyword') }}"
+                        class="w-full border border-gray-300 rounded px-3 py-2">
+                </div>
+                <div>
+                    <label for="status" class="block font-semibold mb-1">Status</label>
+                    <select name="status" id="status" class="w-full border border-gray-300 rounded px-3 py-2">
+                        <option value="draft" {{ old('status') === 'draft' ? 'selected' : '' }}>Draft</option>
+                        <option value="published" {{ old('status') === 'published' ? 'selected' : '' }}>Published</option>
+                    </select>
+                </div>
             </div>
 
-            {{-- Image --}}
-            <div class="mb-4">
-                <label for="image" class="block font-semibold mb-1">Featured Image</label>
-                <input type="file" name="image" id="image" class="w-full border border-gray-300 rounded px-3 py-2">
-            </div>
-
-            {{-- Image Alt --}}
-            <div class="mb-4">
-                <label for="image_alt" class="block font-semibold mb-1">Image Alt Text</label>
-                <input type="text" name="image_alt" id="image_alt" value="{{ old('image_alt') }}"
-                    class="w-full border border-gray-300 rounded px-3 py-2">
-            </div>
-
-            {{-- Meta Title --}}
-            <div class="mb-4">
-                <label for="meta_title" class="block font-semibold mb-1">Meta Title</label>
-                <input type="text" name="meta_title" id="meta_title" value="{{ old('meta_title') }}"
-                    class="w-full border border-gray-300 rounded px-3 py-2">
-            </div>
-
-            {{-- Meta Description --}}
-            <div class="mb-4">
-                <label for="meta_description" class="block font-semibold mb-1">Meta Description</label>
-                <input type="text" name="meta_description" id="meta_description" value="{{ old('meta_description') }}"
-                    class="w-full border border-gray-300 rounded px-3 py-2">
-            </div>
-
-            {{-- Meta Keyword --}}
-            <div class="mb-4">
-                <label for="meta_keyword" class="block font-semibold mb-1">Meta Keywords</label>
-                <input type="text" name="meta_keyword" id="meta_keyword" value="{{ old('meta_keyword') }}"
-                    class="w-full border border-gray-300 rounded px-3 py-2">
-            </div>
-
-            {{-- Status --}}
-            <div class="mb-4">
-                <label for="status" class="block font-semibold mb-1">Status</label>
-                <select name="status" id="status" class="w-full border border-gray-300 rounded px-3 py-2">
-                    <option value="draft" {{ old('status') === 'draft' ? 'selected' : '' }}>Draft</option>
-                    <option value="published" {{ old('status') === 'published' ? 'selected' : '' }}>Published</option>
-                </select>
-            </div>
-
-            {{-- Submit Button --}}
+            {{-- Submit --}}
             <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
                 Save
             </button>
         </form>
+
 
     </div>
 
