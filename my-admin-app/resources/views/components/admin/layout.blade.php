@@ -21,6 +21,11 @@
 </head>
 
 <body x-data="{ sidebarOpen: true }" class="flex h-screen bg-gray-100">
+
+
+    <x-admin.partial.flash />
+
+
     @props(['breadcrumbs' => []])
 
     @if(auth('admin')->check())
