@@ -2,6 +2,24 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Services\FileUploadService;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Encoders\WebpEncoder;
+use Intervention\Image\Encoders\PngEncoder;
+
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
+
+
+
+
+
+
+
+
+
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -18,5 +36,5 @@ Route::middleware('auth')->group(function () {
 });
 
 
-require __DIR__.'/admin.php';
-require __DIR__.'/auth.php';
+require __DIR__ . '/admin.php';
+require __DIR__ . '/auth.php';

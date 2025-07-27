@@ -201,37 +201,89 @@ class FileUploadService
      * @param int $size
      * @return string Path to the saved avatar image
      */
+
     public function generateAndSave(string $name, string $filename = null, int $size = 128): string
     {
+
         $initials = $this->getInitials($name);
         $background = $this->getColorFromName($name);
 
         // Create blank image
-        $image = $this->imagemanager->create($size, $size, $background);
+        //$image = $this->imagemanager->create($size, $size, $background);
+        $circle = $this->imagemanager->create($size, $size)->fill('rgba(0,0,0,0)');
 
-        $fontPath = public_path('fonts/arial.ttf');
+        $center = $size / 2;
+        $radius = $center;
 
-        $image->text($initials, $size / 2, $size / 2, function ($font) use ($fontPath, $size) {
-          //  $font->filename($fontPath);
+        ////With the Border
+        $borderColor = $background;
+        $borderWidth = 2;
+        $centerX = $centerY = $size / 2;
+
+
+        for ($y = 0; $y < $size; $y++) {
+            for ($x = 0; $x < $size; $x++) {
+                $dx = $x - $centerX;
+                $dy = $y - $centerY;
+                $distance = sqrt($dx * $dx + $dy * $dy);
+
+                if ($distance <= $radius) {
+                    // Border region
+                    if ($distance >= $radius - $borderWidth) {
+                        $circle->drawPixel($x, $y, $borderColor);
+                    } else {
+                        $circle->drawPixel($x, $y, $background);
+                    }
+                }
+            }
+        }
+        ////Without the border, you can use the following code:
+
+        // for ($y = 0; $y < $size; $y++) {
+        //     for ($x = 0; $x < $size; $x++) {
+        //         $dx = $x - $center;
+        //         $dy = $y - $center;
+
+        //         if (($dx * $dx + $dy * $dy) <= ($radius * $radius)) {
+        //             $circle->drawPixel($x, $y, $background);
+        //         }
+
+        //     }
+        // }
+
+        // Add initials text
+        $circle->text($initials, $center, $center, function ($font) use ($size) {
+            $font->filename(public_path('backend/fonts/static/Roboto-Regular.ttf'));
             $font->size($size / 2.5);
-            $font->color('#ffffff');
+            // $font->size(50);
+            $font->color('#ffffffff');
             $font->align('center');
             $font->valign('middle');
         });
 
         $filename = $filename ?: Str::slug($name) . '-' . time() . '.webp';
-        $path = "avatars/{$filename}";
+        $filename = "{$filename}";
 
-        Storage::disk('public')->put($path, (string) $image->encode(new WebpEncoder()));
+        Storage::disk('avatars')->put($filename, (string) $circle->encode(new WebpEncoder()));
 
-        return $path;
+        return $filename;
     }
 
-    private function getInitials(string $name): string
+    private function getInitials(string $name, int $maxLetters = 3): string
     {
         $parts = preg_split('/\s+/', trim($name));
-        return strtoupper(substr($parts[0], 0, 1) . (isset($parts[1]) ? substr($parts[1], 0, 1) : ''));
+        $initials = '';
+
+        foreach ($parts as $part) {
+            if (strlen($initials) >= $maxLetters) {
+                break;
+            }
+            $initials .= substr($part, 0, 1);
+        }
+
+        return strtoupper($initials);
     }
+
 
     private function getColorFromName(string $name): string
     {
@@ -247,7 +299,7 @@ class FileUploadService
      * @param int $height
      * @return bool
      */
-    public function resizeImage($sourcePath, $destinationPath, $width = 375, $height = 680)
+    private function resizeImage($sourcePath, $destinationPath, $width = 375, $height = 680)
     {
         try {
             $ratio = config('constants.maintain_photo_crop_ratio');

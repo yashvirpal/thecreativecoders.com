@@ -2,22 +2,25 @@
     <ol class="list-reset flex items-center space-x-2">
         @foreach ($items as $index => $item)
             @if ($index === 0)
-                <li>
-                    <a href="{{ $item['url'] ?? '#' }}" class="hover:text-gray-700 flex items-center">
-                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M3 12l2-2m0 0l7-7 7 7M13 5v6h6" />
-                        </svg>
+                <li class="flex items-center gap-1">
+                    <a href="{{ $item['url'] ?? '#' }}" class="hover:text-gray-700 flex items-center gap-1">
+                        <x-heroicon-o-home class="w-5 h-5 text-gray-500" />
                         {{ $item['label'] }}
                     </a>
                 </li>
             @elseif (!empty($item['url']) && $index !== count($items) - 1)
-                <li><a href="{{ $item['url'] }}" class="hover:text-gray-700">{{ $item['label'] }}</a></li>
-                <li class="text-gray-400">/</li>
+                <li class="flex items-center gap-1">
+                    <span class="text-gray-400">/</span>
+                    <a href="{{ $item['url'] }}" class="hover:text-gray-700">{{ $item['label'] }}</a>
+                </li>
             @else
-                <li class="text-gray-700 font-medium">{{ $item['label'] }}</li>
+                <li class="flex items-center gap-1">
+                    <span class="text-gray-400">/</span>
+                    <span class="text-gray-700 font-medium">{{ $item['label'] }}</span>
+                </li>
             @endif
         @endforeach
+
 
     </ol>
 </nav>

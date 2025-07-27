@@ -45,9 +45,11 @@ class ProfileController extends Controller
         }
 
         // $this->fileuploadservice->saveFiles($request, $products, 'products');
+        if ($admin->avatar == null || $admin->avatar == '' || $admin->avatar != $data['name']) {
+            $path = $this->fileuploadservice->generateAndSave($data['name']);
+            $admin->avatar = $path;
+        }
 
-        $path = $this->fileuploadservice->generateAndSave($data['name']);
-        $admin->avatar = $path;
         $admin->save();
 
         return redirect()->route('admin.profile.edit')->with('success', 'Profile updated successfully.');

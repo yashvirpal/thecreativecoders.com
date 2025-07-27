@@ -9,41 +9,36 @@
 
     <!-- User Info -->
     @php $admin = auth('admin')->user(); @endphp
-    <div class="p-4 text-center">
-        <img src="https://ui-avatars.com/api/?name={{ urlencode($admin->name) }}&background=4B5563&color=fff"
-            class="w-12 h-12 mx-auto rounded-full" />
+    <div class="p-4 text-center border-b border-gray-700">
+        @if ($admin->avatar)
+            <img src="{{ asset('storage/avatars/' . $admin->avatar) }}"
+                class="w-12 h-12 rounded-full mx-auto object-cover" />
+        @else
+            <img src="https://ui-avatars.com/api/?name={{ urlencode($admin->name) }}&background=4B5563&color=fff"
+                class="w-12 h-12 mx-auto rounded-full" />
+        @endif
         <div x-show="sidebarOpen" x-cloak class="mt-2">
             <div class="font-semibold">{{ $admin->name }}</div>
-            <div class="text-sm text-gray-400">{{ str_replace("_"," ",ucfirst($admin->role)) }}</div>
+            <div class="text-sm text-gray-400">{{ str_replace("_", " ", ucfirst($admin->role)) }}</div>
         </div>
     </div>
 
     <!-- Navigation -->
     <nav class="flex-1 p-2 space-y-2">
         <a href="#" class="flex items-center space-x-3 hover:bg-gray-700 p-2 rounded">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round" viewBox="0 0 24 24">
-                <path d="M3 12h18M3 6h18M3 18h18"></path>
-            </svg>
+            <x-heroicon-o-home class="w-5 h-5 text-gray-500" />
             <span x-show="sidebarOpen" x-cloak>Dashboard</span>
         </a>
         <a href="#" class="flex items-center space-x-3 hover:bg-gray-700 p-2 rounded">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round" viewBox="0 0 24 24">
-                <path d="M4 6h16M4 12h16M4 18h16"></path>
-            </svg>
+            <x-heroicon-o-book-open class="w-5 h-5 text-gray-500" />
             <span x-show="sidebarOpen" x-cloak>Posts</span>
         </a>
     </nav>
     {{-- Logout --}}
     <form method="POST" action="{{ route('admin.logout') }}" class="mt-auto border-t border-red-500">
         @csrf
-        <button type="submit"
-            class="flex items-center gap-3 p-2 w-full bg-red-500 transition duration-200">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                stroke-linejoin="round" viewBox="0 0 24 24">
-                <path d="M17 16l4-4m0 0l-4-4m4 4H7" />
-            </svg>
+        <button type="submit" class="flex items-center gap-3 p-2 w-full bg-red-500 transition duration-200">
+            <x-heroicon-o-power class="w-5 h-5 text-white-500" />
             <span x-show="sidebarOpen" x-cloak>Logout</span>
         </button>
     </form>

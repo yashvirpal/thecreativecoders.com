@@ -1,10 +1,13 @@
 <x-admin.layout :breadcrumbs="[
-    ['label' => 'Dashboard', 'url' => route('admin.dashboard')],
-  //  ['label' => 'Profile', 'url' => route('admin.profile.edit')],
-    ['label' => 'Edit Profile']
-]">
+        ['label' => 'Dashboard', 'url' => route('admin.dashboard')],
+        //  ['label' => 'Profile', 'url' => route('admin.profile.edit')],
+        ['label' => 'Edit Profile']
+    ]">
     <div class="max-w-xll mx-auto p-6 bg-white rounded shadow">
-        <h1 class="text-2xl font-bold mb-6">Edit Profile</h1>
+        <h1 class="text-2xl font-bold mb-6 flex items-center gap-2">
+            <x-heroicon-o-user class="w-6 h-6 text-gray-500" />
+            Edit Profile
+        </h1>
 
         @if(session('success'))
             <div class="mb-4 p-3 bg-green-100 text-green-700 rounded">
