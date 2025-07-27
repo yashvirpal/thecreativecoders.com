@@ -29,9 +29,9 @@
             <x-heroicon-o-home class="w-5 h-5 text-gray-500" />
             <span x-show="sidebarOpen" x-cloak>Dashboard</span>
         </a>
-        <a href="#" class="flex items-center space-x-3 hover:bg-gray-700 p-2 rounded">
+        <a href="{{ route('admin.blogs.index') }}" class="flex items-center space-x-3 hover:bg-gray-700 p-2 rounded">
             <x-heroicon-o-book-open class="w-5 h-5 text-gray-500" />
-            <span x-show="sidebarOpen" x-cloak>Posts</span>
+            <span x-show="sidebarOpen" x-cloak>Blogs</span>
         </a>
     </nav>
     {{-- Logout --}}

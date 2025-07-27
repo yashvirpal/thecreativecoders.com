@@ -16,6 +16,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         // Profile routes
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+        // Blog routes
+        Route::resource('blogs', \App\Http\Controllers\Admin\BlogController::class)->except(['show']);
     });
 });
 
