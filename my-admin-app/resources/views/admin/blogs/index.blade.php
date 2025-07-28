@@ -16,6 +16,8 @@
             <tr class="bg-gray-200">
                 <th class="p-3">ID</th>
                 <th class="p-3">Title</th>
+                <th class="p-3">Status</th>
+                <th class="p-3">Created </th>
                 <th class="p-3">Actions</th>
             </tr>
         </thead>
@@ -24,6 +26,8 @@
                 <tr>
                     <td class="p-3">{{ $blog->id }}</td>
                     <td class="p-3">{{ $blog->title }}</td>
+                    <td class="p-3">{{ $blog->status }}</td>
+                    <td class="p-3">{{ $blog->created_at }}</td>
                     <td class="p-3 space-x-2">
                         <a href="{{ route('admin.blogs.edit', $blog->id) }}" class="text-blue-600 hover:underline">Edit</a>
 

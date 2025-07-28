@@ -43,12 +43,11 @@ class ProfileController extends Controller
                 'password' => 'nullable|string|min:8|confirmed',
             ]);
         } catch (ValidationException $e) {
-            // Optional: flash the first validation error
             flash($e->validator->errors()->first())->error();
-
-            return redirect()->back()
-                ->withErrors($e->errors()) // For @error and $errors in blade
-                ->withInput(); // Preserve form input
+            return redirect()->back()->withErrors($e->errors())->withInput();
+        } catch (\Exception $e) {
+            flash('Something went wrong: ' . $e->getMessage())->error();
+            return redirect()->back()->withInput();
         }
 
 

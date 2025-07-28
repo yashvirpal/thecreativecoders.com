@@ -8,10 +8,12 @@ use App\Models\Blog;
 use Illuminate\Support\Str;
 
 use Laracasts\Flash\Flash;
-use Illuminate\Validation\ValidationException;
+use App\Services\FileUploadService;
 
 class BlogController extends Controller
 {
+    public function __construct(protected FileUploadService $fileUploadService) {}
+
     public function index()
     {
         $blogs = Blog::latest()->paginate(10);
@@ -23,13 +25,7 @@ class BlogController extends Controller
         return view('admin.blogs.create');
     }
 
-    public function store(BlogRequest $request)
-    {
-        try {
-            $data = $request->validated();
-            $data['slug'] = $data['slug'] ?? Str::slug($data['title']);
-
-            // if ($request->hasFile('banner')) {
+    // if ($request->hasFile('banner')) {
             //     $bannerPath = $request->file('banner')->store('uploads/banners', 'public');
             //     $blog->banner = $bannerPath;
             // }
@@ -38,16 +34,18 @@ class BlogController extends Controller
             //     $imagePath = $request->file('image')->store('uploads/images', 'public');
             //     $blog->image = $imagePath;
             // }
-
-            Blog::create($data);
+    public function store(BlogRequest $request)
+    {
+        try {
+            $data = $request->validated();
+            $row=Blog::create($data);            
+            $this->fileUploadService->saveFiles($request, $row, $row->getTable());
 
             flash('Blog created successfully!')->success();
             return redirect()->route('admin.blogs.index');
-        } catch (ValidationException $e) {
-            flash($e->validator->errors()->first())->error();
-
-            //flash('Failed to create blog: ' . $e->getMessage())->error();
-            return redirect()->back()->withErrors($e->errors())->withInput();
+        } catch (\Exception $e) {
+            flash('Something went wrong: ' . $e->getMessage())->error();
+            return redirect()->back()->withInput();
         }
     }
 

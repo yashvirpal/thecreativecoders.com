@@ -8,6 +8,8 @@
             <x-heroicon-o-book-open class="w-6 h-6 text-gray-500" />
             Create Blog
         </h1>
+
+
         <form action="{{ route('admin.blogs.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
@@ -17,12 +19,18 @@
                     <label for="title" class="block font-semibold mb-1">Title</label>
                     <input type="text" name="title" id="title" value="{{ old('title') }}"
                         class="w-full border border-gray-300 rounded px-3 py-2">
+                    @error('title')
+                        <p class="text-red-600 text-sm mt-1 capitalize">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div>
                     <label for="slug" class="block font-semibold mb-1">Slug</label>
                     <input type="text" name="slug" id="slug" value="{{ old('slug') }}"
                         class="w-full border border-gray-300 rounded px-3 py-2">
+                    @error('slug')
+                        <p class="text-red-600 text-sm mt-1 capitalize">{{ $message }}</p>
+                    @enderror
                 </div>
             </div>
 
@@ -33,10 +41,16 @@
                     <label for="banner" class="block font-semibold mb-1">Banner Image</label>
                     <input type="file" name="banner" id="banner"
                         class="w-full border border-gray-300 rounded px-3 py-2">
+                    @error('banner')
+                        <p class="text-red-600 text-sm mt-1 capitalize">{{ $message }}</p>
+                    @enderror
                 </div>
                 <div>
                     <label for="image" class="block font-semibold mb-1">Featured Image</label>
                     <input type="file" name="image" id="image" class="w-full border border-gray-300 rounded px-3 py-2">
+                    @error('image')
+                        <p class="text-red-600 text-sm mt-1 capitalize">{{ $message }}</p>
+                    @enderror
                 </div>
             </div>
 
@@ -47,11 +61,17 @@
                     <label for="banner_alt" class="block font-semibold mb-1">Banner Alt Text</label>
                     <input type="text" name="banner_alt" id="banner_alt" value="{{ old('banner_alt') }}"
                         class="w-full border border-gray-300 rounded px-3 py-2">
+                    @error('banner_alt')
+                        <p class="text-red-600 text-sm mt-1 capitalize">{{ $message }}</p>
+                    @enderror
                 </div>
                 <div>
                     <label for="image_alt" class="block font-semibold mb-1">Image Alt Text</label>
                     <input type="text" name="image_alt" id="image_alt" value="{{ old('image_alt') }}"
                         class="w-full border border-gray-300 rounded px-3 py-2">
+                    @error('image_alt')
+                        <p class="text-red-600 text-sm mt-1 capitalize">{{ $message }}</p>
+                    @enderror
                 </div>
             </div>
 
@@ -62,6 +82,9 @@
                     class="w-full border border-gray-300 rounded px-3 py-2">{{ old('content') }}</textarea> --}}
                 <input id="content" type="hidden" name="content" value="{{ old('content', $blog->content ?? '') }}">
                 <trix-editor input="content" x-ignore></trix-editor>
+                @error('content')
+                    <p class="text-red-600 text-sm mt-1 capitalize">{{ $message }}</p>
+                @enderror
 
             </div>
 
@@ -71,11 +94,17 @@
                     <label for="meta_title" class="block font-semibold mb-1">Meta Title</label>
                     <input type="text" name="meta_title" id="meta_title" value="{{ old('meta_title') }}"
                         class="w-full border border-gray-300 rounded px-3 py-2">
+                    @error('meta_title')
+                        <p class="text-red-600 text-sm mt-1 capitalize">{{ $message }}</p>
+                    @enderror
                 </div>
                 <div>
                     <label for="meta_description" class="block font-semibold mb-1">Meta Description</label>
                     <input type="text" name="meta_description" id="meta_description"
                         value="{{ old('meta_description') }}" class="w-full border border-gray-300 rounded px-3 py-2">
+                    @error('meta_description')
+                        <p class="text-red-600 text-sm mt-1 capitalize">{{ $message }}</p>
+                    @enderror
                 </div>
             </div>
 
@@ -85,6 +114,9 @@
                     <label for="meta_keyword" class="block font-semibold mb-1">Meta Keywords</label>
                     <input type="text" name="meta_keyword" id="meta_keyword" value="{{ old('meta_keyword') }}"
                         class="w-full border border-gray-300 rounded px-3 py-2">
+                    @error('meta_keyword')
+                        <p class="text-red-600 text-sm mt-1 capitalize">{{ $message }}</p>
+                    @enderror
                 </div>
                 <div>
                     <label for="status" class="block font-semibold mb-1">Status</label>
@@ -92,6 +124,9 @@
                         <option value="draft" {{ old('status') === 'draft' ? 'selected' : '' }}>Draft</option>
                         <option value="published" {{ old('status') === 'published' ? 'selected' : '' }}>Published</option>
                     </select>
+                    @error('status')
+                        <p class="text-red-600 text-sm mt-1 capitalize">{{ $message }}</p>
+                    @enderror
                 </div>
             </div>
 
@@ -103,5 +138,32 @@
 
 
     </div>
+{{-- 
+<script>
+    function slugify(text) {
+        return text.toString().toLowerCase()
+            .replace(/\s+/g, '-')           // Replace spaces with -
+            .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
+            .replace(/\-\-+/g, '-')         // Replace multiple - with single -
+            .replace(/^-+/, '')             // Trim - from start of text
+            .replace(/-+$/, '');            // Trim - from end of text
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const titleInput = document.getElementById('title');
+        const slugInput = document.getElementById('slug');
+        let touched = false;
+
+        slugInput.addEventListener('input', () => {
+            touched = true; // User edited slug manually
+        });
+
+        titleInput.addEventListener('input', () => {
+            if (!touched) {
+                slugInput.value = slugify(titleInput.value);
+            }
+        });
+    });
+</script> --}}
 
 </x-admin.layout>
