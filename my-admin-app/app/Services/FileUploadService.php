@@ -44,135 +44,81 @@ class FileUploadService
      * @param string $fileName Old File name     
      * @return bool
      */
-    public function saveFiles($request, $table, $type, $oldFileName = '')
+    public function saveFiles($request, $table, $type, array $fileFields = [], array $oldFiles = [])
     {
+        $config = config("constant.$type");
 
-        $thumbWidth = config("constant." . $type . "_photo_thumb_width");
-        $thumbHeight = config("constant." . $type . "_photo_thumb_height");
-        $largeWidth = config("constant." . $type . "_photo_large_width");
-        $largeHeight = config("constant." . $type . "_photo_large_height");
-        $filePath = config("constant." . $type . "_photo_path");
-
-        if (!Storage::exists($filePath)) {
-            Storage::makeDirectory($filePath, 0775, true);
-        }
-        if (!Storage::exists($filePath . "/thumb")) {
-            Storage::makeDirectory($filePath . "/thumb", 0775, true);
+        if (!$config) {
+            throw new \Exception("Missing configuration for type: {$type}");
         }
 
-        if ($request->hasfile('image')) {
-            $extension = $request->file('image')->getClientOriginalExtension();
-            $fileName =  $this->getFileName($extension);
-            $file = $request->file('image')->storeAs($filePath, $fileName);
-            if (!empty($file) && Storage::exists($file)) {
-                $thumbPath = $filePath . "thumb/" . $fileName;
+        $thumbWidth = $config['thumb_width'];
+        $thumbHeight = $config['thumb_height'];
+        $largeWidth = $config['width'];
+        $largeHeight = $config['height'];
+        $filePath = rtrim($config['path'] ?? "uploads/$type/", '/') . '/';
+        $disk = $config['disk'] ?? 'public';
 
-                $this->resizeImage(Storage::path($file), Storage::path($thumbPath), $thumbWidth, $thumbHeight);
-                $this->resizeImage(Storage::path($file), Storage::path($file), $largeWidth, $largeHeight);
-                $res = $table->update(['image' => $fileName]);
-
-                if ($res && !empty($oldFileName)) {
-                    if (Storage::exists($filePath . $oldFileName)) {
-                        Storage::delete($filePath . $oldFileName);
-                    }
-                    if (Storage::exists($filePath . "thumb/" . $oldFileName)) {
-                        Storage::delete($filePath . "thumb/" . $oldFileName);
-                    }
-                }
-                //return true;
-            }
+        // Ensure directories exist
+        if (!Storage::disk($disk)->exists($filePath)) {
+            Storage::disk($disk)->makeDirectory($filePath, 0775, true);
+        }
+        if (!Storage::disk($disk)->exists($filePath . "thumb")) {
+            Storage::disk($disk)->makeDirectory($filePath . "thumb", 0775, true);
         }
 
-        if ($request->hasfile('banner') && $type == 'pages') {
+        $savedFiles = [];
 
+        foreach ($fileFields as $inputName => $dbColumn) {
 
-            $extension = $request->file('banner')->getClientOriginalExtension();
-            $fileName =  $this->getFileName($extension);
-            $file = $request->file('banner')->storeAs($filePath, $fileName);
+            if ($request->hasFile($inputName)) {
+                $extension = $request->file($inputName)->getClientOriginalExtension();
+                $fileName = $this->getFileName($extension);
+                $file = $request->file($inputName)->storeAs($filePath, $fileName, $disk);
 
-            if (!empty($file) && Storage::exists($file)) {
-
-                // $imageCropService = new ImageCropService();               
-                // $imageCropService->resizeImage(Storage::path($file), Storage::path($file), $largeWidth, $largeHeight);
-                $res = $table->update(['banner' => $fileName]);
-                if ($res && !empty($oldFileName)) {
-                    if (Storage::exists($filePath . $oldFileName)) {
-                        Storage::delete($filePath . $oldFileName);
-                    }
-                }
-
-                //return true;
-            }
-        }
-
-        if ($request->hasfile('watermark')) {
-
-            $extension = $request->file('watermark')->getClientOriginalExtension();
-            $fileName =  $this->getFileName($extension);
-            $file = $request->file('watermark')->storeAs($filePath, $fileName);
-
-            if (!empty($file) && Storage::exists($file)) {
-                $res = $table->update(['watermark' => $fileName]);
-                if ($res && !empty($oldFileName)) {
-                    if (Storage::exists($filePath . $oldFileName)) {
-                        Storage::delete($filePath . $oldFileName);
-                    }
-                }
-            }
-        }
-
-        if ($request->hasfile('profile') && $type == 'testimonials') {
-
-            $extension = $request->file('profile')->getClientOriginalExtension();
-            $fileName =  $this->getFileName($extension);
-            $file = $request->file('profile')->storeAs($filePath, $fileName);
-            if (!empty($file) && Storage::exists($file)) {
-
-                $this->resizeImage(Storage::path($file), Storage::path($file), 48, 48);
-                $res = $table->update(['profile' => $fileName]);
-                if ($res && !empty($oldFileName)) {
-                    if (Storage::exists($filePath . $oldFileName)) {
-                        Storage::delete($filePath . $oldFileName);
-                    }
-                }
-                //return true;
-            }
-        }
-        if ($request->hasfile('gallery')) {
-            $oldFileName = $request->gallery_old;;
-            $gallery = [];
-            $files = $request->file('gallery');
-            $largeWidth = config("constant." . $type . "_gallery_photo_large_width");
-            $largeHeight = config("constant." . $type . "_gallery_photo_large_height");
-            foreach ($files as $file) {
-                $extension = $file->getClientOriginalExtension();
-                $fileName =  $this->getFileName($extension);
-                $gallery[] = $fileName;
-                $filegallery = $file->storeAs($filePath, $fileName);
-                if (!empty($filegallery) && Storage::exists($filegallery)) {
+                if ($file && Storage::disk($disk)->exists($file)) {
                     $thumbPath = $filePath . "thumb/" . $fileName;
 
-                    $this->resizeImage(Storage::path($filegallery), Storage::path($thumbPath), $thumbWidth, $thumbHeight);
-                    $this->resizeImage(Storage::path($filegallery), Storage::path($filegallery), $largeWidth, $largeHeight);
+                    $this->resizeImage(
+                        Storage::disk($disk)->path($file),
+                        Storage::disk($disk)->path($thumbPath),
+                        $thumbWidth,
+                        $thumbHeight
+                    );
 
-                    if (!empty($oldFileName)) {
-                        if (Storage::exists($filePath . $oldFileName)) {
-                            Storage::delete($filePath . $oldFileName);
+                    $this->resizeImage(
+                        Storage::disk($disk)->path($file),
+                        Storage::disk($disk)->path($file),
+                        $largeWidth,
+                        $largeHeight
+                    );
+
+                    $table->update([$dbColumn => $fileName]);
+
+                    if (!empty($oldFiles[$inputName])) {
+                        $oldThumb = $filePath . "thumb/" . $oldFiles[$inputName];
+                        $oldFile = $filePath . $oldFiles[$inputName];
+
+                        if (Storage::disk($disk)->exists($oldFile)) {
+                            Storage::disk($disk)->delete($oldFile);
                         }
-                        if (Storage::exists($filePath . "thumb/" . $oldFileName)) {
-                            Storage::delete($filePath . "thumb/" . $oldFileName);
+                        if (Storage::disk($disk)->exists($oldThumb)) {
+                            Storage::disk($disk)->delete($oldThumb);
                         }
                     }
+
+                    $savedFiles[$inputName] = $fileName;
                 }
             }
-            $res = $table->update(['gallery' => implode(',', $gallery)]);
         }
+       // dd($savedFiles);
 
-        if ($request->hasfile('banner') || $request->hasfile('image') || $request->hasfile('gallery') || $request->hasfile('profile')) {
-            return true;
-        }
-        return false;
+        return !empty($savedFiles);
     }
+
+
+
+
 
     /**
      * Delete  image file
@@ -181,17 +127,36 @@ class FileUploadService
      * @param string $fileName  File name     
      * @return bool
      */
-    public function delteFiles($type, $fileName)
+    public function deleteFiles($type, $fileName)
     {
-        $filePath = config("constant." . $type . "_photo_path");
+        $config = config("constant.$type");
 
-        if (Storage::exists($filePath . $fileName) || Storage::exists($filePath . "thumb/" . $fileName)) {
-            Storage::delete($filePath . $fileName);
-            Storage::delete($filePath . "thumb/" . $fileName);
-            return true;
+        if (!$config) {
+            throw new \Exception("Missing configuration for type: {$type}");
         }
-        return false;
+
+        $filePath = rtrim($config['path'] ?? "uploads/$type/", '/') . '/';
+        $disk = $config['disk'] ?? 'public';
+
+        $mainFile = $filePath . $fileName;
+        $thumbFile = $filePath . 'thumb/' . $fileName;
+
+        $deleted = false;
+
+        if (Storage::disk($disk)->exists($mainFile)) {
+            Storage::disk($disk)->delete($mainFile);
+            $deleted = true;
+        }
+
+        if (Storage::disk($disk)->exists($thumbFile)) {
+            Storage::disk($disk)->delete($thumbFile);
+            $deleted = true;
+        }
+
+        return $deleted;
     }
+
+
 
     /**
      * Generate and save avatar image
@@ -302,7 +267,7 @@ class FileUploadService
     private function resizeImage($sourcePath, $destinationPath, $width = 375, $height = 680)
     {
         try {
-            $ratio = config('constants.maintain_photo_crop_ratio');
+            $ratio = config('constants.maintain_crop_ratio');
             if (file_exists($sourcePath)) {
                 $img = $this->imagemanager->read($sourcePath);
                 if ($ratio) {

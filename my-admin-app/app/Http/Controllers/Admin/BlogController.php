@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\BlogRequest;
 use App\Models\Blog;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 use Laracasts\Flash\Flash;
 use App\Services\FileUploadService;
@@ -26,28 +27,54 @@ class BlogController extends Controller
     }
 
     // if ($request->hasFile('banner')) {
-            //     $bannerPath = $request->file('banner')->store('uploads/banners', 'public');
-            //     $blog->banner = $bannerPath;
-            // }
+    //     $bannerPath = $request->file('banner')->store('uploads/banners', 'public');
+    //     $blog->banner = $bannerPath;
+    // }
 
-            // if ($request->hasFile('image')) {
-            //     $imagePath = $request->file('image')->store('uploads/images', 'public');
-            //     $blog->image = $imagePath;
-            // }
+    // if ($request->hasFile('image')) {
+    //     $imagePath = $request->file('image')->store('uploads/images', 'public');
+    //     $blog->image = $imagePath;
+    // }
     public function store(BlogRequest $request)
     {
+        DB::beginTransaction();
+
+        $fileFields = [
+            'image' => 'image', // input name => DB column name
+            'banner' => 'banner',
+            'thumbnail' => 'thumbnail', // just as example
+        ];
+
+        // old file names if any
+        $oldFiles = [
+            'image' => $row->image ?? '', // input name => DB column name
+            'banner' => $row->banner ?? '',
+            'thumbnail' => $row->thumbnail ?? '',
+        ];
         try {
             $data = $request->validated();
-            $row=Blog::create($data);            
-            $this->fileUploadService->saveFiles($request, $row, $row->getTable());
+            $row = Blog::create($data);
+            $type = Blog::getTypeKey();
 
+            try {
+                $this->fileUploadService->saveFiles($request, $row, $type, $fileFields, $oldFiles);
+            } catch (\Exception $e) {
+                Log::error('File upload failed: ' . $e->getMessage());
+                // Option 1: rollback and throw again
+                DB::rollBack();
+                return back()->with('error', 'File upload failed. Please try again.');
+            }
+
+            DB::commit();
             flash('Blog created successfully!')->success();
             return redirect()->route('admin.blogs.index');
         } catch (\Exception $e) {
+            DB::rollBack();
             flash('Something went wrong: ' . $e->getMessage())->error();
             return redirect()->back()->withInput();
         }
     }
+
 
 
     public function edit(Blog $blog)

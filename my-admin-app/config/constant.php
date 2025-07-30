@@ -7,7 +7,7 @@ return [
      */
     'contact_details' => [
         'email' => env('EMAIL', 'contact@localhoast.com'),
-        'phone' => env('PHONE', '1234567890'),        
+        'phone' => env('PHONE', '1234567890'),
         'address' => env('ADDRESS', 'Sector 22 Gurgaon, Haryana, India'),
         'facebook' => env('FACEBOOK', 'https://www.facebook.com/'),
         'instagram' => env('INSTAGRAM', 'https://www.instagram.com/'),
@@ -21,7 +21,7 @@ return [
      */
     'pagination_records_per_page' => env('PAGINATION_RECORDS_PER_PAGE', 10),
     'admin_email' => env('ADMIN_EMAIL', 'admin@localhost.com'),
-    
+
 
     /**
      * Pagination links on each side of current page
@@ -74,75 +74,70 @@ return [
      */
     'image_valid_types' => env('IMAGE_VALID_TYPES', 'jpg,png,webp'),
     /**
-    * True if Image Size Aspect Ratio is to be maintained
-    */
-    'maintain_photo_crop_ratio' => env('MAINTAIN_PHOTO_ASPECT_RATIO', true),
+     * True if Image Size Aspect Ratio is to be maintained
+     */
+    'maintain_crop_ratio' => env('MAINTAIN_ASPECT_RATIO', true),
+
+
+    /* Blogs Image Height and Width Define */
+
+    'blogs' => [
+        'disk' => env('BLOGS_DISK', 'public'),
+        'path' => env('BLOGS_PATH', 'uploads/blogs/'),
+        'thumb_width' => env('BLOGS_THUMB_WIDTH', 550),
+        'thumb_height' => env('BLOGS_THUMB_HEIGHT', 550),
+        'width' => env('BLOGS_WIDTH', 800),
+        'height' => env('BLOGS_HEIGHT', 800),
+    ],
+    'pages' => [
+        'disk' => env('PAGES_DISK', 'public'),
+        'path' => env('PAGES_PATH', 'uploads/pages/'),
+        'thumb_width' => env('PAGES_THUMB_WIDTH', 600),
+        'thumb_height' => env('PAGES_THUMB_HEIGHT', 600),
+        'width' => env('PAGES_WIDTH', 1200),
+        'height' => env('PAGES_HEIGHT', 800),
+    ],
+
 
     /* Product Category Image Height and Width Define */
-    'product_category_photo_thumb_width'=>env('PRODUCT_CATEGORY_PHOTO_THUMB_WIDTH',550),
-    'product_category_photo_thumb_height'=>env('PRODUCT_CATEGORY_PHOTO_THUMB_HEIGHT',550),
-    'product_category_photo_large_width'=>env('PRODUCT_CATEGORY_PHOTO_LARGE_WIDTH',800),
-    'product_category_photo_large_height'=>env('PRODUCT_CATEGORY_PHOTO_LARGE_HEIGHT',800),
-    'product_category_photo_path'=>env('PRODUCT_CATEGORY_PHOTO_PATH','public/uploads/product-category/'),
-
-    /* Offers Image Height and Width Define */
-    'offer_photo_thumb_width'=>env('OFFER_PHOTO_THUMB_WIDTH',550),
-    'offer_photo_thumb_height'=>env('OFFER_PHOTO_THUMB_HEIGHT',550),
-    'offer_photo_large_width'=>env('OFFER_PHOTO_LARGE_WIDTH',800),
-    'offer_photo_large_height'=>env('OFFER_PHOTO_LARGE_HEIGHT',800),
-    'offer_photo_path'=>env('OFFER_PHOTO_PATH','public/uploads/offer/'),
-
-    /* Meat Type Image Height and Width Define */
-    'meat_types_photo_thumb_width'=>env('MEAT_TYPES_PHOTO_THUMB_WIDTH',550),
-    'meat_types_photo_thumb_height'=>env('MEAT_TYPES_PHOTO_THUMB_HEIGHT',550),
-    'meat_types_photo_large_width'=>env('MEAT_TYPES_PHOTO_LARGE_WIDTH',800),
-    'meat_types_photo_large_height'=>env('MEAT_TYPES_PHOTO_LARGE_HEIGHT',800),
-    'meat_types_photo_path'=>env('MEAT_TYPES_PHOTO_PATH','public/uploads/meat-types/'),
+    'product_category_thumb_width' => env('PRODUCT_CATEGORY_THUMB_WIDTH', 550),
+    'product_category_thumb_height' => env('PRODUCT_CATEGORY_THUMB_HEIGHT', 550),
+    'product_category_width' => env('PRODUCT_CATEGORY_WIDTH', 800),
+    'product_category_height' => env('PRODUCT_CATEGORY_HEIGHT', 800),
+    'product_category_path' => env('PRODUCT_CATEGORY_PATH', 'public/uploads/product-category/'),
 
     /* Products Image Height and Width Define */
-    'products_photo_thumb_width'=>env('PRODUCTS_PHOTO_THUMB_WIDTH',550),
-    'products_photo_thumb_height'=>env('PRODUCTS_PHOTO_THUMB_HEIGHT',550),
-    'products_photo_large_width'=>env('PRODUCTS_PHOTO_LARGE_WIDTH',800),
-    'products_photo_large_height'=>env('PRODUCTS_PHOTO_LARGE_HEIGHT',800),
-    'products_photo_path'=>env('PRODUCTS_PHOTO_PATH','public/uploads/products/'),
-    'products_gallery_photo_large_width'=>env('PRODUCTS_GALLERY_PHOTO_LARGE_WIDTH',800),
-    'products_gallery_photo_large_height'=>env('PRODUCTS_GALLERY_PHOTO_LARGE_HEIGHT',800),
+    'products_thumb_width' => env('PRODUCTS_THUMB_WIDTH', 550),
+    'products_thumb_height' => env('PRODUCTS_THUMB_HEIGHT', 550),
+    'products_width' => env('PRODUCTS_WIDTH', 800),
+    'products_height' => env('PRODUCTS_HEIGHT', 800),
+    'products_path' => env('PRODUCTS_PATH', 'public/uploads/products/'),
+    'products_gallery_width' => env('PRODUCTS_GALLERY_WIDTH', 800),
+    'products_gallery_height' => env('PRODUCTS_GALLERY_HEIGHT', 800),
 
 
-     /* Pages Image Height and Width Define */
-     'pages_photo_thumb_width'=>env('PAGES_PHOTO_THUMB_WIDTH',550),
-     'pages_photo_thumb_height'=>env('PAGES_PHOTO_THUMB_HEIGHT',550),
-     'pages_photo_large_width'=>env('PAGES_PHOTO_LARGE_WIDTH',800),
-     'pages_photo_large_height'=>env('PAGES_PHOTO_LARGE_HEIGHT',800),
-     'pages_photo_path'=>env('PAGES_PHOTO_PATH','public/uploads/pages/'),
+    /* Pages Image Height and Width Define */
+    'pages_thumb_width' => env('PAGES_THUMB_WIDTH', 550),
+    'pages_thumb_height' => env('PAGES_THUMB_HEIGHT', 550),
+    'pages_width' => env('PAGES_WIDTH', 800),
+    'pages_height' => env('PAGES_HEIGHT', 800),
+    'pages_path' => env('PAGES_PATH', 'public/uploads/pages/'),
 
-     /* Testimonials Image Height and Width Define */
-     'testimonials_photo_thumb_width'=>env('TESTIMONIALS_PHOTO_THUMB_WIDTH',265),
-     'testimonials_photo_thumb_height'=>env('TESTIMONIALS_PHOTO_THUMB_HEIGHT',166),
-     'testimonials_photo_large_width'=>env('TESTIMONIALS_PHOTO_LARGE_WIDTH',265),
-     'testimonials_photo_large_height'=>env('TESTIMONIALS_PHOTO_LARGE_HEIGHT',166),
-     'testimonials_photo_path'=>env('TESTIMONIALS_PHOTO_PATH','public/uploads/testimonials/'),
+    /* Testimonials Image Height and Width Define */
+    'testimonials_thumb_width' => env('TESTIMONIALS_THUMB_WIDTH', 265),
+    'testimonials_thumb_height' => env('TESTIMONIALS_THUMB_HEIGHT', 166),
+    'testimonials_width' => env('TESTIMONIALS_WIDTH', 265),
+    'testimonials_height' => env('TESTIMONIALS_HEIGHT', 166),
+    'testimonials_path' => env('TESTIMONIALS_PATH', 'public/uploads/testimonials/'),
 
-      /* Users Profile Height and Width Define */
-      'users_photo_thumb_width'=>env('USERS_PHOTO_THUMB_WIDTH',150),
-      'users_photo_thumb_height'=>env('USERS_PHOTO_THUMB_HEIGHT',150),
-      'users_photo_large_width'=>env('USERS_PHOTO_LARGE_WIDTH',300),
-      'users_photo_large_height'=>env('USERS_PHOTO_LARGE_HEIGHT',300),
-      'users_photo_path'=>env('USERS_PHOTO_PATH','public/uploads/users/'),
+    /* Users Profile Height and Width Define */
+    'users_thumb_width' => env('USERS_THUMB_WIDTH', 150),
+    'users_thumb_height' => env('USERS_THUMB_HEIGHT', 150),
+    'users_width' => env('USERS_WIDTH', 300),
+    'users_height' => env('USERS_HEIGHT', 300),
+    'users_path' => env('USERS_PATH', 'public/uploads/users/'),
 
-     /* global Sections Image Height and Width Define */
-     'global_sections_photo_thumb_width'=>env('GLOBAL_SECTIONS_PHOTO_THUMB_WIDTH',550),
-     'global_sections_photo_thumb_height'=>env('GLOBAL_SECTIONS_PHOTO_THUMB_HEIGHT',550),
-     'global_sections_photo_large_width'=>env('GLOBAL_SECTIONS_PHOTO_LARGE_WIDTH',800),
-     'global_sections_photo_large_height'=>env('GLOBAL_SECTIONS_PHOTO_LARGE_HEIGHT',800),
-     'global_sections_photo_path'=>env('GLOBAL_SECTIONS_PHOTO_PATH','public/uploads/global-sections/'),
 
-     /* What We Deliver Image Height and Width Define */
-     'what_we_deliver_photo_thumb_width'=>env('WHAT_WE_DELIVER_PHOTO_THUMB_WIDTH',550),
-     'what_we_deliver_photo_thumb_height'=>env('WHAT_WE_DELIVER_PHOTO_THUMB_HEIGHT',550),
-     'what_we_deliver_photo_large_width'=>env('WHAT_WE_DELIVER_PHOTO_LARGE_WIDTH',800),
-     'what_we_deliver_photo_large_height'=>env('WHAT_WE_DELIVER_PHOTO_LARGE_HEIGHT',800),
-     'what_we_deliver_photo_path'=>env('WHAT_WE_DELIVER_PHOTO_PATH','public/uploads/what-we-deliver/'),
-    
+
 
 ];

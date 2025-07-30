@@ -8,7 +8,17 @@ use Illuminate\Support\Str;
 class Blog extends Model
 {
     protected $fillable = [
-        'title', 'slug', 'content', 'banner', 'banner_alt','image', 'image_alt', 'meta_title', 'meta_description', 'meta_keyword', 'status',
+        'title',
+        'slug',
+        'content',
+        'banner',
+        'banner_alt',
+        'image',
+        'image_alt',
+        'meta_title',
+        'meta_description',
+        'meta_keyword',
+        'status',
     ];
 
     public static function boot()
@@ -35,14 +45,18 @@ class Blog extends Model
 
         while (
             static::where('slug', $slug)
-                ->when($ignoreId, fn($q) => $q->where('id', '!=', $ignoreId))
-                ->exists()
+            ->when($ignoreId, fn($q) => $q->where('id', '!=', $ignoreId))
+            ->exists()
         ) {
             $slug = $original . '-' . $count++;
         }
 
         return $slug;
     }
+
+    // Define the type key for the FileUploadService
+    public static function getTypeKey(): string
+    {
+        return 'blogs'; // Or dynamically determine it
+    }
 }
-
-

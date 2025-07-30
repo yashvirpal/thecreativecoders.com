@@ -138,32 +138,51 @@
 
 
     </div>
-{{-- 
-<script>
-    function slugify(text) {
-        return text.toString().toLowerCase()
-            .replace(/\s+/g, '-')           // Replace spaces with -
-            .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
-            .replace(/\-\-+/g, '-')         // Replace multiple - with single -
-            .replace(/^-+/, '')             // Trim - from start of text
-            .replace(/-+$/, '');            // Trim - from end of text
-    }
+    {{--
+    <script>
+        function slugify(text) {
+            return text.toString().toLowerCase()
+                .replace(/\s+/g, '-')           // Replace spaces with -
+                .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
+                .replace(/\-\-+/g, '-')         // Replace multiple - with single -
+                .replace(/^-+/, '')             // Trim - from start of text
+                .replace(/-+$/, '');            // Trim - from end of text
+        }
 
-    document.addEventListener("DOMContentLoaded", () => {
-        const titleInput = document.getElementById('title');
-        const slugInput = document.getElementById('slug');
-        let touched = false;
+        document.addEventListener("DOMContentLoaded", () => {
+            const titleInput = document.getElementById('title');
+            const slugInput = document.getElementById('slug');
+            let touched = false;
 
-        slugInput.addEventListener('input', () => {
-            touched = true; // User edited slug manually
+            slugInput.addEventListener('input', () => {
+                touched = true; // User edited slug manually
+            });
+
+            titleInput.addEventListener('input', () => {
+                if (!touched) {
+                    slugInput.value = slugify(titleInput.value);
+                }
+            });
         });
-
-        titleInput.addEventListener('input', () => {
-            if (!touched) {
-                slugInput.value = slugify(titleInput.value);
+    </script> --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const banner = document.querySelector('input[name="banner"]');
+            if (banner) {
+                FilePond.create(banner, {
+                    storeAsFile: true,
+                    allowMultiple: false
+                });
+            }
+            const image = document.querySelector('input[name="image"]');
+            if (image) {
+                FilePond.create(image, {
+                    storeAsFile: true,
+                    allowMultiple: false
+                });
             }
         });
-    });
-</script> --}}
+    </script>
+
 
 </x-admin.layout>
