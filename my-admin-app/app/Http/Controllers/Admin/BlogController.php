@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 
 use Laracasts\Flash\Flash;
 use App\Services\FileUploadService;
+use Illuminate\Support\Facades\Log;
 
 class BlogController extends Controller
 {
