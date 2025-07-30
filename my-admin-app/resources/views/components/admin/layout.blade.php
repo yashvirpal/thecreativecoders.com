@@ -46,6 +46,9 @@
             {{ $slot ?? 'Main content goes here.' }}
         </main>
     </div>
+
+    @stack('scripts')
+
 </body>
 
 </html>

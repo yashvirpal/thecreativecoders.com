@@ -83,20 +83,55 @@ class BlogController extends Controller
         return view('admin.blogs.edit', compact('blog'));
     }
 
-    public function update(BlogRequest $request, Blog $blog)
+    public function update(BlogRequest $request, $id)
     {
-        $data = $request->validated();
-        $data['slug'] = $data['slug'] ?? Str::slug($data['title']);
+        DB::beginTransaction();
 
-        if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('blogs', 'public');
+        try {
+            // Fetch the existing record
+            $row = Blog::findOrFail($id);
+
+            // Prepare file fields and old file names
+            $fileFields = [
+                'image' => 'image',
+                'banner' => 'banner',
+                'thumbnail' => 'thumbnail', // if applicable
+            ];
+
+            $oldFiles = [
+                'image' => $row->image ?? '',
+                'banner' => $row->banner ?? '',
+                'thumbnail' => $row->thumbnail ?? '',
+            ];
+
+            $data = $request->validated();
+
+            // Update the record data first (except file fields if you want)
+            $row->update($data);
+
+            $type = Blog::getTypeKey();
+
+            try {
+                // Save files and update file columns
+                $this->fileUploadService->saveFiles($request, $row, $type, $fileFields, $oldFiles);
+            } catch (\Exception $e) {
+                Log::error('File upload failed: ' . $e->getMessage());
+                DB::rollBack();
+                return back()->with('error', 'File upload failed. Please try again.');
+            }
+
+            DB::commit();
+
+            flash('Blog updated successfully!')->success();
+            return redirect()->route('admin.blogs.index');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            flash('Something went wrong: ' . $e->getMessage())->error();
+            return redirect()->back()->withInput();
         }
-
-        $blog->update($data);
-
-        flash('Blog updated successfully!')->success();
-        return redirect()->route('admin.blogs.index');
     }
+
+
 
     public function destroy(Blog $blog)
     {

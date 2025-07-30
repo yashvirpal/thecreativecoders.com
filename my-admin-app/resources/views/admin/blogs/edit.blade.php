@@ -18,48 +18,48 @@
                     <label for="title" class="block font-semibold mb-1">Title</label>
                     <input type="text" name="title" id="title" value="{{ old('title', $blog->title) }}"
                         class="w-full border border-gray-300 rounded px-3 py-2">
+                    @error('title')
+                        <p class="text-red-600 text-sm mt-1 capitalize">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <div>
                     <label for="slug" class="block font-semibold mb-1">Slug</label>
                     <input type="text" name="slug" id="slug" value="{{ old('slug', $blog->slug) }}"
                         class="w-full border border-gray-300 rounded px-3 py-2">
+                    @error('slug')
+                        <p class="text-red-600 text-sm mt-1 capitalize">{{ $message }}</p>
+                    @enderror
                 </div>
             </div>
 
-            {{-- Content (Full Width) --}}
-            <div class="mb-4">
-                <label for="content" class="block font-semibold mb-1">Content</label>
-                <textarea name="content" id="content" rows="5"
-                    class="w-full border border-gray-300 rounded px-3 py-2">{{ old('content', $blog->content) }}</textarea>
-            </div>
-
-            {{-- Banner & Banner Alt --}}
+            {{-- Banner & Image --}}
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
                     <label for="banner" class="block font-semibold mb-1">Banner Image</label>
-                    <input type="file" name="banner" id="banner"
-                        class="w-full border border-gray-300 rounded px-3 py-2">
-                    @if ($blog->banner)
-                        <img src="{{ asset('storage/' . $blog->banner) }}" class="mt-2 h-20" alt="Current Banner">
-                    @endif
+                    <input type="file" name="banner" id="banner" data-filepond
+                        data-filepond-existing="{{ $blog->banner ? asset('storage/uploads/blogs/' . $blog->banner) : '' }}">
+                    @error('banner')
+                        <p class="text-red-600 text-sm mt-1 capitalize">{{ $message }}</p>
+                    @enderror
                 </div>
+                <div>
+                    <label for="image" class="block font-semibold mb-1">Featured Image</label>
+                    <input type="file" name="image" id="image" data-filepond
+                        data-filepond-existing="{{ $blog->image ? asset('storage/uploads/blogs/' . $blog->image) : '' }}">
+                    @error('image')
+                        <p class="text-red-600 text-sm mt-1 capitalize">{{ $message }}</p>
+                    @enderror
+                </div>
+            </div>
+
+            {{-- Alt Texts --}}
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
                     <label for="banner_alt" class="block font-semibold mb-1">Banner Alt Text</label>
                     <input type="text" name="banner_alt" id="banner_alt"
                         value="{{ old('banner_alt', $blog->banner_alt) }}"
                         class="w-full border border-gray-300 rounded px-3 py-2">
-                </div>
-            </div>
-
-            {{-- Image & Image Alt --}}
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <div>
-                    <label for="image" class="block font-semibold mb-1">Featured Image</label>
-                    <input type="file" name="image" id="image" class="w-full border border-gray-300 rounded px-3 py-2">
-                    @if ($blog->image)
-                        <img src="{{ asset('storage/' . $blog->image) }}" class="mt-2 h-20" alt="Current Image">
-                    @endif
                 </div>
                 <div>
                     <label for="image_alt" class="block font-semibold mb-1">Image Alt Text</label>
@@ -68,7 +68,14 @@
                 </div>
             </div>
 
-            {{-- Meta Title & Description --}}
+            {{-- Content --}}
+            <div class="mb-4">
+                <label for="content" class="block font-semibold mb-1">Content</label>
+                <input id="content" type="hidden" name="content" value="{{ old('content', $blog->content) }}">
+                <trix-editor input="content" x-ignore></trix-editor>
+            </div>
+
+            {{-- SEO --}}
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
                     <label for="meta_title" class="block font-semibold mb-1">Meta Title</label>
@@ -84,7 +91,6 @@
                 </div>
             </div>
 
-            {{-- Meta Keyword & Status --}}
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
                     <label for="meta_keyword" class="block font-semibold mb-1">Meta Keywords</label>
@@ -103,12 +109,35 @@
                 </div>
             </div>
 
-            {{-- Submit --}}
             <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-                Update Blog
+                Update
             </button>
         </form>
 
-
     </div>
+    @push('scripts')
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const setupFilePond = (selector) => {
+                    document.querySelectorAll(selector).forEach(input => {
+                        const existing = input.dataset.filepondExisting;
+                        const pond = FilePond.create(input, {
+                            storeAsFile: true,
+                            allowMultiple: false,
+                            imagePreviewHeight: 100, // smaller preview
+                       //     acceptedFileTypes: ['image/*'],
+                       //     labelIdle: 'Drag & Drop your files or <span class="filepond--label-action">Browse</span>',
+                        });
+
+                        if (existing) {
+                            pond.addFile(existing);
+                        }
+                    });
+                };
+
+                setupFilePond('input[data-filepond]');
+            });
+        </script>
+    @endpush
+
 </x-admin.layout>
