@@ -7,6 +7,9 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\ValidationException;
+use App\Models\Blog;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 
 class BlogRequest extends FormRequest
 {
@@ -17,9 +20,17 @@ class BlogRequest extends FormRequest
 
     public function rules(): array
     {
+        $id = $this->id ?? null;
+
+
         return [
             'title'             => 'required|string|max:255',
-            'slug'              => 'nullable|string|max:255|unique:blogs,slug,' . $this->id,
+            'slug' => [
+                'nullable',
+                'string',
+                'max:255',
+                Rule::unique((new Blog())->getTable(), 'slug')->ignore($this->id),
+            ],
             'content'           => 'nullable|string',
             'banner'            => 'nullable|image|max:2048', // optional file
             'banner_alt'        => 'nullable|string|max:255',

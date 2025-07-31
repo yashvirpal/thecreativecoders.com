@@ -21,21 +21,27 @@ class Blog extends Model
         'status',
     ];
 
-    public static function boot()
+    protected static function boot()
     {
         parent::boot();
 
         static::creating(function ($blog) {
-            $blog->slug = self::generateUniqueSlug($blog->slug ?? $blog->title);
+            if (empty($blog->slug)) {
+                $blog->slug = static::generateUniqueSlug($blog->title);
+            } else {
+                $blog->slug = static::generateUniqueSlug($blog->slug);
+            }
         });
 
         static::updating(function ($blog) {
-            // Only regenerate slug if it's changed
             if ($blog->isDirty('slug')) {
-                $blog->slug = self::generateUniqueSlug($blog->slug ?? $blog->title, $blog->id);
+                $blog->slug = static::generateUniqueSlug($blog->slug, $blog->id);
+            } elseif ($blog->isDirty('title') && empty($blog->slug)) {
+                $blog->slug = static::generateUniqueSlug($blog->title, $blog->id);
             }
         });
     }
+
 
     protected static function generateUniqueSlug($baseSlug, $ignoreId = null)
     {
@@ -53,6 +59,7 @@ class Blog extends Model
 
         return $slug;
     }
+
 
     // Define the type key for the FileUploadService
     public static function getTypeKey(): string

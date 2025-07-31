@@ -11,6 +11,7 @@
         <form action="{{ route('admin.blogs.update', $blog->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
+            <input type="hidden" name="id" value="{{ $blog->id }}">
 
             {{-- Title & Slug --}}
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
