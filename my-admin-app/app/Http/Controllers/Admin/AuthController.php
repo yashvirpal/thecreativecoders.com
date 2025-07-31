@@ -26,7 +26,9 @@ class AuthController extends Controller
         //die("Login attempt with credentials: " . json_encode($credentials));
         if (Auth::guard('admin')->attempt($credentials)) {
             logger('✅ Login successful for: ' . $credentials['email']);
-            return redirect()->route('admin.dashboard');
+            //return redirect()->route('admin.dashboard');
+            return redirect()->intended('/admin/dashboard');
+
         }
 
         logger('❌ Login failed for: ' . json_encode($credentials));
