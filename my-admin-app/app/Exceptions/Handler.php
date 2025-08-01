@@ -30,11 +30,7 @@ class Handler extends ExceptionHandler
 
     /**
      * Register the exception handling callbacks for the application.
-     */public function __construct(Container $container)
-{
-    parent::__construct($container);
-    dd('Handler constructor called'); // this WILL now fire
-}
+     */
 
     public function registerr()
     {
@@ -48,6 +44,8 @@ class Handler extends ExceptionHandler
             if ($request->expectsJson()) {
                 return response()->json(['error' => 'Resource not found.'], 404);
             }
+
+            Log::error('MethodNotAllowedHttpException: Handler.php->>> ' . $e->getMessage());
             return redirect()->route('admin.error.404');
         });
 
@@ -55,41 +53,22 @@ class Handler extends ExceptionHandler
             if ($request->expectsJson()) {
                 return response()->json(['error' => 'Invalid request method for this action.'], 405);
             }
-            dd("aaaaaa  " . $e->getMessage());
-            Log::error('MethodNotAllowedHttpException: ' . $e->getMessage());
+            return response()->view('errors.405', [], 405);
+            Log::error('MethodNotAllowedHttpException: Handler.php->>> ' . $e->getMessage());
             return redirect()->route('admin.error.405');
 
             // return response()->view('errors.405', [], 405);
             // return redirect()->back()->withErrors(['error' => 'Invalid request method for this action.']);
         });
     }
-
     public function register()
     {
-        $this->renderable(function (NotFoundHttpException $e, $request) {
-            if ($request->expectsJson()) {
-                return response()->json(['error' => 'Not Found'], 404);
-            }
-
-            if (Str::startsWith($request->path(), 'admin')) {
-                return response()->view('admin.errors.404', [], 404);
-            }
-
-            return response()->view('errors.404', [], 404);
-        });
-
-        $this->renderable(function (MethodNotAllowedHttpException $e, $request) {
-            if ($request->expectsJson()) {
-                return response()->json(['error' => 'Method Not Allowed'], 405);
-            }
-
-            if (Str::startsWith($request->path(), 'admin')) {
-                return response()->view('admin.errors.405', [], 405);
-            }
-
-            return response()->view('errors.405', [], 405);
+        $this->reportable(function (Throwable $e) {
+            //
         });
     }
+
+
 
     /**
      * Override default unauthenticated handler to support custom guards like 'admin'

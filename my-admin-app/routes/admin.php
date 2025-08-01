@@ -15,9 +15,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     Route::middleware('auth:admin')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-        Route::get('/error-405', [ErrorController::class, 'error405'])->name('admin.error.405');
-        Route::get('/error-404', [ErrorController::class, 'error404'])->name('admin.error.404');
-
         // Profile routes
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
