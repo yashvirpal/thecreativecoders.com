@@ -131,12 +131,33 @@ class BlogController extends Controller
         }
     }
 
-
+    /**
+     * Delete the blog post.
+     *
+     * @param Blog $blog
+     * @return \Illuminate\Http\RedirectResponse
+     */
 
     public function destroy(Blog $blog)
     {
-        $blog->delete();
-        flash('Blog deleted.')->error();
-        return redirect()->route('admin.blogs.index');
+        $type = Blog::getTypeKey();
+        DB::beginTransaction();
+        try {
+            // Delete files
+            $this->fileUploadService->deleteFiles($type, $blog->image);
+            $this->fileUploadService->deleteFiles($type, $blog->banner);
+
+            // Delete the blog record
+            $blog->delete();
+            DB::commit();
+            flash('Blog deleted.')->success();
+            return redirect()->route('admin.blogs.index');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            // Optionally log the error or flash a message
+            // Log::error('Failed to delete blog: ' . $e->getMessage());
+            flash('Failed to delete blog. Please try again.')->error();
+            return redirect()->back();
+        }
     }
 }
