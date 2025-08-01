@@ -28,7 +28,7 @@ return Application::configure(basePath: dirname(__DIR__))
             }
 
             Log::error('404 Not Found: ' . $e->getMessage());
-            return response()->view('errors.404', [], 404);
+            return response()->view('errors.admin.404', [], 404);
         });
 
         $exceptions->render(function (MethodNotAllowedHttpException $e, $request) {
@@ -37,6 +37,6 @@ return Application::configure(basePath: dirname(__DIR__))
             }
 
             Log::error('405 Method Not Allowed: ' . $e->getMessage());
-            return response()->view('errors.405', [], 405);
+            return response()->view('errors.admin.405', [], 405);
         });
     })->create();
