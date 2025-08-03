@@ -25,40 +25,6 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        // $exceptions->render(function (NotFoundHttpException $e, $request) {
-        //     if ($request->is('admin/*')) {
-
-        //         if (Auth::guard('admin')->check()) {
-        //             return response()->view('errors.admin.404', [], 404);
-        //         }
-        //         return redirect()->route('admin.login');
-        //     }
-        //     // Other 404 pages for regular users
-        //     return response()->view('errors.404', [], 404);
-        // });
-        // $exceptions->render(function (MethodNotAllowedHttpException $e, $request) {
-        //     if ($request->is('admin/*')) {
-
-        //         if (Auth::guard('admin')->check()) {
-        //             return response()->view('errors.admin.405', [], 405);
-        //         }
-        //         return redirect()->route('admin.login');
-        //     }
-        //     // Other 404 pages for regular users
-        //     return response()->view('errors.405', [], 405);
-        // });
-        // $exceptions->render(function (ModelNotFoundException $e, $request) {
-        //     // Treat model not found as 404
-        //     if ($request->is('admin/*')) {
-        //         if (Auth::guard('admin')->check()) {
-        //             return response()->view('errors.admin.404', [], 404);
-        //         }
-        //         return redirect()->route('admin.login');
-        //     }
-        //     return response()->view('errors.404', [], 404);
-        // });
-
-
 
         // Handle all exceptions
 
