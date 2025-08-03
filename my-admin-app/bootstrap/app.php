@@ -6,6 +6,7 @@ use Illuminate\Foundation\Configuration\Middleware;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -59,101 +60,111 @@ return Application::configure(basePath: dirname(__DIR__))
 
 
 
-        // $exceptions->render(function (NotFoundHttpException $e, $request) {
-        //     try {
-        //         $message = $e->getMessage();
-        //         if ($request->is('admin/*')) {
-        //             if (Auth::guard('admin')->check()) {
-        //                 return response()->view('admin.errors.404', ['message' => $message], 404);
-        //             }
-        //             return redirect()->route('admin.login');
-        //         }
-        //         return response()->view('errors.404', ['message' => $message], 404);
-        //     } catch (Throwable $handlerException) {
-        //         Log::error('Exception in 404 handler: ' . $handlerException->getMessage());
-        //         return response()->view('errors.404', [
-        //             'message' => $handlerException->getMessage(),
-        //         ], 404);
-        //     }
-        // });
+        // Handle all exceptions
 
         // $exceptions->render(function (Throwable $e, $request) {
-
         //     try {
+        //         $status = method_exists($e, 'getStatusCode') ? $e->getStatusCode() : 500;
         //         $message = $e->getMessage();
+        //         $isAdmin = $request->is('admin/*');
+        //         $isAuthenticated = Auth::guard('admin')->check();
 
-        //         if ($request->is('admin/*')) {
-        //             if (Auth::guard('admin')->check()) {
-        //                 Log::error('Admin 500 Error', [
-        //                     'message' => $message,
-        //                     'url' => $request->fullUrl(),
-        //                     'trace' => $e->getTraceAsString(),
-        //                 ]);
-
-        //                 return response()->view('errors.admin.500', ['message' => $message], 500);
-        //             }
-        //             return redirect()->route('admin.login');
-        //         }
-
-        //         Log::error('500 Error', [
+        //         // Log all errors
+        //         Log::error("{$status} Error", [
+        //             'status' => $status,
         //             'message' => $message,
         //             'url' => $request->fullUrl(),
         //             'trace' => $e->getTraceAsString(),
         //         ]);
 
-        //         return response()->view('errors.500', ['message' => $message], 500);
+        //         // Redirect to admin login if not authenticated
+        //         if ($isAdmin && !$isAuthenticated) {
+        //             return redirect()->route('admin.login');
+        //         }
+
+        //         // Use a general 400 template for all 4xx errors
+        //         $view = $status >= 500
+        //             ? 'errors.500'
+        //             : 'errors.400';
+
+        //         // Admin-specific views
+        //         if ($isAdmin) {
+        //             $adminView = str_replace('errors.', 'admin.errors.', $view);
+        //             if (view()->exists($adminView)) {
+        //                 return response()->view($adminView, compact('message', 'status'), $status);
+        //             }
+        //         }
+
+        //         return response()->view($view, compact('message', 'status'), $status);
         //     } catch (Throwable $handlerException) {
-        //         dd($handlerException);
-        //         Log::error('Exception in 500 handler: ' . $handlerException->getMessage());
-        //         return response()->view('errors.fallback', [
+        //         // Fallback in case even the handler fails
+        //         Log::critical('Exception in exception handler: ' . $handlerException->getMessage());
+
+        //         return response()->view('errors.default', [
         //             'message' => $handlerException->getMessage(),
+        //             'status' => 500,
         //         ], 500);
         //     }
         // });
 
 
 
+
+
         $exceptions->render(function (Throwable $e, $request) {
             try {
-                $status = method_exists($e, 'getStatusCode') ? $e->getStatusCode() : 500;
-                $message = $e->getMessage();
+                $status = method_exists($e, 'getStatusCode')
+                    ? $e->getStatusCode()
+                    : ($e instanceof HttpExceptionInterface ? $e->getStatusCode() : 500);
+
+                $message = $e->getMessage() ?: 'An unexpected error occurred.';
                 $isAdmin = $request->is('admin/*');
-                $isAuthenticated = Auth::guard('admin')->check();
 
-                // Log all errors
-                Log::error("{$status} Error", [
-                    'status' => $status,
-                    'message' => $message,
-                    'url' => $request->fullUrl(),
-                    'trace' => $e->getTraceAsString(),
-                ]);
-
-                // Redirect to admin login if not authenticated
-                if ($isAdmin && !$isAuthenticated) {
+                if ($isAdmin && !Auth::guard('admin')->check()) {
                     return redirect()->route('admin.login');
                 }
 
-                // Use a general 400 template for all 4xx errors
-                $view = $status >= 500
-                    ? 'errors.500'
-                    : 'errors.400';
+                // Map status code ranges to template types
+                $templateGroup = match (true) {
+                    $status >= 500 => '500',
+                    in_array($status, [400, 401, 403, 404, 405]) => '400',
+                    default => 'fallback',
+                };
 
-                // Admin-specific views
-                if ($isAdmin) {
-                    $adminView = str_replace('errors.', 'admin.errors.', $view);
-                    if (view()->exists($adminView)) {
-                        return response()->view($adminView, compact('message', 'status'), $status);
-                    }
+                // Try to load a more specific error view first (e.g., 404, 405), fall back to group view
+                $specificView = $isAdmin ? "admin.errors.{$status}" : "errors.{$status}";
+                $groupView = $isAdmin ? "admin.errors.{$templateGroup}" : "errors.{$templateGroup}";
+
+                $viewToUse = view()->exists($specificView) ? $specificView : (view()->exists($groupView) ? $groupView : ($isAdmin ? 'errors.admin.fallback' : 'errors.fallback'));
+
+                // Log only 500-level and fallback errors
+                if ($status >= 500 || $templateGroup === 'fallback') {
+                    Log::error("[$status] Error: {$message}", [
+                        'url' => $request->fullUrl(),
+                        'trace' => $e->getTraceAsString(),
+                    ]);
                 }
 
-                return response()->view($view, compact('message', 'status'), $status);
-            } catch (Throwable $handlerException) {
-                // Fallback in case even the handler fails
-                Log::critical('Exception in exception handler: ' . $handlerException->getMessage());
+                return response()->view($viewToUse, [
+                    'status' => $status,
+                    'message' => $message,
+                ], $status);
+            } catch (Throwable $handlerError) {
+                //dd('Error in exception handler: ' . $handlerError->getMessage());
+                Log::critical('Exception inside error handler: ' . $handlerError->getMessage());
 
+                if ($request->is('admin/*')) {
+                    if (Auth::guard('admin')->check()) {
+                        return response()->view('admin.errors.fallback', [
+                            'status' => 500,
+                            'message' => 'Something went wrong while processing your request.',
+                        ], 500);
+                    }
+                    return redirect()->route('admin.login');
+                }
                 return response()->view('errors.fallback', [
-                    'message' => $handlerException->getMessage(),
                     'status' => 500,
+                    'message' => 'Something went wrong while processing your request.',
                 ], 500);
             }
         });
