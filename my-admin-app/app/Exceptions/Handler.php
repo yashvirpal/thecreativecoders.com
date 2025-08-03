@@ -6,12 +6,6 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
-use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use Illuminate\Contracts\Container\Container;
 
 class Handler extends ExceptionHandler
 {
@@ -32,43 +26,13 @@ class Handler extends ExceptionHandler
      * Register the exception handling callbacks for the application.
      */
 
-    public function registerr()
-    {
-        $this->reportable(function (Throwable $e) {
-            //
-        });
-
-
-
-        $this->renderable(function (NotFoundHttpException $e, $request) {
-            if ($request->expectsJson()) {
-                return response()->json(['error' => 'Resource not found.'], 404);
-            }
-
-            Log::error('MethodNotAllowedHttpException: Handler.php->>> ' . $e->getMessage());
-            return redirect()->route('admin.error.404');
-        });
-
-        $this->renderable(function (MethodNotAllowedHttpException $e, $request) {
-            if ($request->expectsJson()) {
-                return response()->json(['error' => 'Invalid request method for this action.'], 405);
-            }
-            return response()->view('errors.405', [], 405);
-            Log::error('MethodNotAllowedHttpException: Handler.php->>> ' . $e->getMessage());
-            return redirect()->route('admin.error.405');
-
-            // return response()->view('errors.405', [], 405);
-            // return redirect()->back()->withErrors(['error' => 'Invalid request method for this action.']);
-        });
-    }
     public function register()
     {
         $this->reportable(function (Throwable $e) {
             //
         });
+
     }
-
-
 
     /**
      * Override default unauthenticated handler to support custom guards like 'admin'

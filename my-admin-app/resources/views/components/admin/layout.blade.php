@@ -25,7 +25,6 @@
 
     <x-admin.partial.flash />
 
-
     @props(['breadcrumbs' => []])
 
     @if(auth('admin')->check())
@@ -37,6 +36,7 @@
         @if(auth('admin')->check())
             <x-admin.partial.header />
         @endif
+
 
         <!-- Page Content -->
         <main class="p-6">
