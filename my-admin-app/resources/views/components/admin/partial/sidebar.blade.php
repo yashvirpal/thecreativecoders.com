@@ -24,7 +24,7 @@
     </div>
 
     <!-- Navigation -->
-    <nav class="flex-1 p-2 space-y-2">
+    {{-- <nav class="flex-1 p-2 space-y-2">
         <a href="#" class="flex items-center space-x-3 hover:bg-gray-700 p-2 rounded">
             <x-heroicon-o-home class="w-5 h-5 text-gray-500" />
             <span x-show="sidebarOpen" x-cloak>Dashboard</span>
@@ -33,7 +33,47 @@
             <x-heroicon-o-book-open class="w-5 h-5 text-gray-500" />
             <span x-show="sidebarOpen" x-cloak>Blogs</span>
         </a>
+    </nav> --}}
+    <nav class="flex-1 p-2 space-y-2" x-data="{ blogOpen: false }">
+        <!-- Dashboard -->
+        <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-3 hover:bg-gray-700 p-2 rounded">
+            <x-heroicon-o-home class="w-5 h-5 text-gray-500" />
+            <span x-show="sidebarOpen" x-cloak>Dashboard</span>
+        </a>
+
+        <!-- Blog Section (Collapsible) -->
+        <div>
+            <button @click="blogOpen = !blogOpen"
+                class="flex items-center justify-between w-full hover:bg-gray-700 p-2 rounded">
+                <div class="flex items-center space-x-3">
+                    <x-heroicon-o-book-open class="w-5 h-5 text-gray-500" />
+                    <span x-show="sidebarOpen" x-cloak>Blog</span>
+                </div>
+                <svg x-show="sidebarOpen" :class="{ 'rotate-180': blogOpen }"
+                    class="w-4 h-4 text-gray-400 transition-transform duration-200" fill="none" stroke="currentColor"
+                    viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+            </button>
+
+            <!-- Blog Submenu -->
+            <div x-show="blogOpen" x-collapse x-cloak class="ml-8 mt-1 space-y-1">
+                <a href="{{ route('admin.blogs.index') }}"
+                    class="block text-gray-400 hover:text-white hover:bg-gray-700 p-2 rounded">
+                    All Blogs
+                </a>
+                <a href="{{ route('admin.blog-categories.index') }}"
+                    class="block text-gray-400 hover:text-white hover:bg-gray-700 p-2 rounded">
+                    Categories
+                </a>
+                <a href="{{ route('admin.blog-tags.index') }}"
+                    class="block text-gray-400 hover:text-white hover:bg-gray-700 p-2 rounded">
+                    Tags
+                </a>
+            </div>
+        </div>
     </nav>
+
     {{-- Logout --}}
     <form method="POST" action="{{ route('admin.logout') }}" class="mt-auto border-t border-red-500">
         @csrf

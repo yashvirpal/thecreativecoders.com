@@ -18,6 +18,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
         // Blog routes
         Route::resource('blogs', \App\Http\Controllers\Admin\BlogController::class)->except(['show']);
+        Route::resource('blog-categories', \App\Http\Controllers\Admin\BlogController::class)->except(['show']);
+        Route::resource('blog-tags', \App\Http\Controllers\Admin\BlogController::class)->except(['show']);
     });
 });
 

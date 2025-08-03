@@ -116,11 +116,12 @@ return Application::configure(basePath: dirname(__DIR__))
                     'message' => $message,
                 ], $status);
             } catch (Throwable $handlerError) {
-                //dd('Error in exception handler: ' . $handlerError->getMessage());
+             //   dd('Error in exception handler: ' . $handlerError->getMessage());
                 Log::critical('Exception inside error handler: ' . $handlerError->getMessage());
 
                 if ($request->is('admin/*')) {
                     if (Auth::guard('admin')->check()) {
+                        //dd('Error in admin exception handler: ' . $handlerError->getMessage());
                         return response()->view('admin.errors.fallback', [
                             'status' => 500,
                             'message' => 'Something went wrong while processing your request.',
