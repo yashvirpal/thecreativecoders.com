@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The Creative Coders — Full Site</title>
+  <style>
+    /* ===== Color system (from user's spec) ===== */
+    :root{
+      --header-bg: #1E293B; /* Deep Navy */
+      --logo: #3B82F6; /* Electric Blue */
+      --nav-text: #F1F5F9; /* Light Gray */
+      --hover: #06B6D4; /* Bright Cyan */
+      --cta: #F97316; /* Vibrant Orange */
+      --search-bg: #334155; /* Lighter Navy */
+
+      /* Section accents */
+      --accent-tools: #10B981; /* Green */
+      --accent-blog: #8B5CF6;  /* Purple */
+      --accent-info:  #F59E0B; /* Gold */
+
+      /* SEO-friendly text colors (optional) */
+      --text-main: #E6EEF8;
+      --muted: rgba(241,245,249,0.85);
+      --glass: rgba(255,255,255,0.03);
+      --border: rgba(255,255,255,0.04);
+      --radius: 12px;
+    }
+
+    /* ===== Reset & base ===== */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background:linear-gradient(180deg,#071033 0%, #021025 100%);
+      color:var(--nav-text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      padding:24px;
+    }
+
+    .container{max-width:1100px;margin:0 auto}
+
+    /* ===== Header ===== */
+    .header{
+      background:var(--header-bg);
+      color:var(--nav-text);
+      border-radius:12px;
+      box-shadow:0 6px 18px rgba(2,6,23,0.6);
+      display:flex;
+      align-items:center;
+      gap:20px;
+      padding:14px 20px;
+      max-width:1100px;
+      margin:0 auto 24px auto;
+      position:sticky;top:24px;z-index:60;transition:all 240ms ease;
+    }
+    .header.scrolled{top:0;border-radius:0 0 12px 12px;box-shadow:0 6px 30px rgba(0,0,0,0.6)}
+
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:44px;height:44px;border-radius:8px;background:linear-gradient(135deg,var(--logo), #60A5FA);display:grid;place-items:center;font-weight:700;color:white}
+    .brand h1{font-size:16px;margin:0}
+    .brand p{margin:0;font-size:12px;color:var(--muted)}
+
+    nav{display:flex;align-items:center;gap:8px;flex:1}
+    .nav-list{display:flex;gap:6px;align-items:center;list-style:none;margin:0;padding:0}
+    .nav-item{position:relative;padding:10px 12px;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:8px;color:var(--nav-text);text-decoration:none;font-weight:600;font-size:14px}
+    .nav-item::after{content:"";position:absolute;left:10px;right:10px;height:3px;bottom:6px;border-radius:4px;opacity:0;transform:translateY(6px);transition:all 180ms ease}
+    .tools::after{background:var(--accent-tools)}.blog::after{background:var(--accent-blog)}.info::after{background:var(--accent-info)}
+    .nav-item:hover::after,.nav-item.active::after{opacity:1;transform:none}
+
+    .controls{display:flex;align-items:center;gap:10px}
+    .search{background:var(--search-bg);padding:8px 10px;border-radius:8px;border:1px solid var(--border);display:flex;align-items:center;gap:8px;width:220px}
+    .search input{background:transparent;border:0;outline:none;color:var(--nav-text);width:100%}
+    .cta{background:var(--cta);color:white;padding:8px 14px;border-radius:8px;font-weight:700;border:none;cursor:pointer}
+
+    /* ===== Hero (Option A/B/C/E) ===== */
+    .hero{display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center;padding:48px 24px;border-radius:12px;background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid var(--border);margin-bottom:28px}
+    .hero h2{font-size:34px;margin:0 0 12px;color:var(--nav-text)}
+    .hero p{margin:0 0 18px;color:var(--muted)}
+    .hero .hero-cta{display:flex;gap:12px}
+
+    .mock-phone{background:linear-gradient(180deg,#071833, #03263f);border-radius:16px;padding:18px;border:1px solid rgba(255,255,255,0.03);min-height:360px;color:var(--muted)}
+
+    /* ===== Services ===== */
+    .services{display:flex;gap:20px;flex-wrap:wrap}
+    .service-card{flex:1;min-width:260px;background:var(--header-bg);padding:20px;border-radius:10px;border-left:5px solid var(--accent-tools)}
+    .service-card h3{margin-top:0;color:var(--accent-tools)}
+
+    /* ===== Pricing ===== */
+    .pricing{display:flex;gap:18px;flex-wrap:wrap;margin:18px 0}
+    .price{flex:1;min-width:220px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));padding:18px;border-radius:10px;border:1px solid var(--border)}
+    .price .tag{font-weight:800;font-size:20px}
+
+    /* ===== Portfolio / Projects (Option B) ===== */
+    .projects{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .project{background:var(--header-bg);padding:14px;border-radius:10px;border-left:5px solid #3B82F6}
+
+    /* ===== Case Studies / Agency (Option C) ===== */
+    .case{display:flex;gap:12px;align-items:center;background:linear-gradient(90deg,#05102a, #071833);padding:16px;border-radius:10px}
+
+    /* ===== Blog Grid (Option D) ===== */
+    .blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .post{background:var(--header-bg);padding:16px;border-radius:10px;border-left:5px solid var(--accent-blog)}
+
+    /* ===== Team ===== */
+    .team{display:flex;gap:16px;flex-wrap:wrap}
+    .member{background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));padding:16px;border-radius:10px;min-width:180px;text-align:center}
+
+    /* ===== About & Contact ===== */
+    .about, .contact{background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));padding:24px;border-radius:12px;border:1px solid var(--border);}
+    .contact form{display:grid;gap:10px}
+    .contact input,.contact textarea{background:transparent;border:1px solid var(--border);padding:10px;border-radius:8px;color:var(--nav-text);outline:none}
+
+    /* ===== Footer ===== */
+    footer{margin-top:40px;color:var(--muted);text-align:center}
+
+    /* responsive */
+    @media (max-width:1000px){.hero{grid-template-columns:1fr;}.projects,.blog-grid{grid-template-columns:repeat(2,1fr)} }
+    @media (max-width:680px){.projects,.blog-grid{grid-template-columns:1fr}.search{display:none}.header{padding:12px}}
+
+  </style>
+</head>
+<body>
+
+  <!-- Header (shared for all options) -->
+  <header class="header" role="banner">
+    <div class="brand container">
+      <div class="logo" aria-hidden="true">CC</div>
+      <div>
+        <h1>The Creative Coders</h1>
+        <p>Build. Design. Ship.</p>
+      </div>
+    </div>
+
+    <nav class="container" aria-label="Main navigation">
+      <ul class="nav-list">
+        <li class="nav-item tools" tabindex="0">Services</li>
+        <li class="nav-item blog" tabindex="0">Blog</li>
+        <li class="nav-item info" tabindex="0">About</li>
+        <li class="nav-item" tabindex="0">Portfolio</li>
+        <li class="nav-item" tabindex="0">Pricing</li>
+      </ul>
+    </nav>
+
+    <div class="controls container">
+      <div class="search" role="search" aria-label="Site search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <input type="search" placeholder="Search..." />
+      </div>
+      <button class="cta">Get started</button>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- HERO (suits A, B, C, E) -->
+    <section class="hero" aria-label="Hero">
+      <div>
+        <h2>We design and build delightful digital products</h2>
+        <p>Designer-led engineering for startups and enterprises. Pixel-perfect UI, scalable code, and measurable results.</p>
+        <div class="hero-cta">
+          <button class="cta">Start a project</button>
+          <button style="background:transparent;border:1px solid var(--border);padding:8px 12px;border-radius:8px;color:var(--nav-text)">See case studies</button>
+        </div>
+
+        <!-- Quick highlights used across variants -->
+        <div style="display:flex;gap:12px;margin-top:18px;flex-wrap:wrap">
+          <div style="background:var(--header-bg);padding:10px;border-radius:8px;border-left:4px solid var(--accent-tools)">Enterprise-ready</div>
+          <div style="background:var(--header-bg);padding:10px;border-radius:8px;border-left:4px solid var(--accent-blog)">Design systems</div>
+          <div style="background:var(--header-bg);padding:10px;border-radius:8px;border-left:4px solid var(--accent-info)">24/7 support</div>
+        </div>
+      </div>
+
+      <aside class="mock-phone" aria-hidden="true">
+        <h4 style="margin-top:0;color:var(--logo)">Preview</h4>
+        <p style="color:var(--muted)">A compact preview of an app/interface or hero visual. Use this side panel for portfolio screenshots or quick product demo.</p>
+      </aside>
+    </section>
+
+    <!-- SERVICES (Option A & E) -->
+    <section style="margin-bottom:18px">
+      <h3 style="color:var(--accent-tools);margin-bottom:8px">Services</h3>
+      <p style="color:var(--muted)">Strategic design and engineering services we offer.</p>
+      <div class="services" style="margin-top:14px">
+        <div class="service-card">
+          <h3>Web Development</h3>
+          <p>Modern, accessible, and performant websites & apps.</p>
+        </div>
+        <div class="service-card">
+          <h3>Product Design</h3>
+          <p>User research, prototypes, and polished UI.</p>
+        </div>
+        <div class="service-card">
+          <h3>Brand & Strategy</h3>
+          <p>Positioning, visual identity, and launch plans.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PRICING (Option A) -->
+    <section style="margin-bottom:18px">
+      <h3 style="color:var(--hover);margin-bottom:8px">Pricing</h3>
+      <p style="color:var(--muted)">Flexible plans for teams of all sizes.</p>
+      <div class="pricing">
+        <div class="price">
+          <div class="tag">Starter</div>
+          <p style="color:var(--muted)">$499 / month — perfect for early-stage teams</p>
+          <button class="cta" style="margin-top:12px">Choose</button>
+        </div>
+        <div class="price">
+          <div class="tag">Pro</div>
+          <p style="color:var(--muted)">$1499 / month — scale with confidence</p>
+          <button class="cta" style="margin-top:12px">Choose</button>
+        </div>
+        <div class="price">
+          <div class="tag">Enterprise</div>
+          <p style="color:var(--muted)">Custom pricing, SLA, dedicated support</p>
+          <button class="cta" style="margin-top:12px">Contact us</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- PORTFOLIO / PROJECTS (Option B) -->
+    <section style="margin-bottom:18px">
+      <h3 style="color:#60A5FA;margin-bottom:8px">Portfolio</h3>
+      <p style="color:var(--muted)">Selected projects that show our craft.</p>
+      <div class="projects" style="margin-top:14px">
+        <div class="project">
+          <h4 style="margin:0 0 8px">Project Atlas</h4>
+          <p style="color:var(--muted)">Design system and frontend architecture for a SaaS product.</p>
+        </div>
+        <div class="project">
+          <h4 style="margin:0 0 8px">Commerce Revamp</h4>
+          <p style="color:var(--muted)">Performance-led redesign for an e‑commerce store.</p>
+        </div>
+        <div class="project">
+          <h4 style="margin:0 0 8px">Mobile Wallet</h4>
+          <p style="color:var(--muted)">Secure payments experience with delightful UI flows.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CASE STUDIES (Option C) -->
+    <section style="margin-bottom:18px">
+      <h3 style="color:var(--accent-info);margin-bottom:8px">Case Studies</h3>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <article class="case">
+          <div style="flex:1">
+            <h4 style="margin:0">Scaling Design Systems</h4>
+            <p style="color:var(--muted)">How we helped a global team reduce UI development time by 40%.</p>
+          </div>
+          <div style="min-width:160px;text-align:right">
+            <button class="cta">Read</button>
+          </div>
+        </article>
+
+        <article class="case">
+          <div style="flex:1">
+            <h4 style="margin:0">Replatforming for Growth</h4>
+            <p style="color:var(--muted)">Migrated an app to a micro-frontends architecture and increased release velocity.</p>
+          </div>
+          <div style="min-width:160px;text-align:right">
+            <button class="cta">Read</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- BLOG GRID (Option D) -->
+    <section style="margin-bottom:18px">
+      <h3 style="color:var(--accent-blog);margin-bottom:8px">From the Blog</h3>
+      <p style="color:var(--muted)">Recent posts, tutorials and ideas.</p>
+      <div class="blog-grid" style="margin-top:14px">
+        <article class="post">
+          <h4 style="margin:0">Designing with Color Systems</h4>
+          <p style="color:var(--muted)">Why consistent palettes matter and how to choose them.</p>
+        </article>
+        <article class="post">
+          <h4 style="margin:0">Accessibility First</h4>
+          <p style="color:var(--muted)">Practical steps to make interfaces accessible to everyone.</p>
+        </article>
+        <article class="post">
+          <h4 style="margin:0">Performance Audits</h4>
+          <p style="color:var(--muted)">Optimizing frontend performance for real users.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- TEAM (Option C) -->
+    <section style="margin-bottom:18px">
+      <h3 style="color:var(--accent-info);margin-bottom:8px">Team</h3>
+      <div class="team">
+        <div class="member"><strong>Asha</strong><div style="color:var(--muted)">Founder & CEO</div></div>
+        <div class="member"><strong>Ravi</strong><div style="color:var(--muted)">Head of Design</div></div>
+        <div class="member"><strong>Meera</strong><div style="color:var(--muted)">Lead Engineer</div></div>
+      </div>
+    </section>
+
+    <!-- ABOUT (Option B & E) -->
+    <section class="about" style="margin-bottom:18px">
+      <h3 style="margin-top:0">About The Creative Coders</h3>
+      <p style="color:var(--muted)">We combine design and engineering to ship high-quality digital products. Our team focuses on measurable outcomes, not vanity metrics.</p>
+    </section>
+
+    <!-- CONTACT (Option A & E) -->
+    <section class="contact" style="margin-bottom:18px">
+      <h3 style="margin-top:0">Contact</h3>
+      <p style="color:var(--muted)">Reach out for a project estimate or a friendly chat.</p>
+      <form onsubmit="event.preventDefault();alert('Thanks — message sent (demo)')">
+        <input type="text" placeholder="Name" required />
+        <input type="email" placeholder="Email" required />
+        <textarea rows="4" placeholder="Tell us about your project" required></textarea>
+        <div style="display:flex;gap:10px">
+          <button class="cta" type="submit">Send message</button>
+          <button style="background:transparent;border:1px solid var(--border);padding:8px 12px;border-radius:8px;color:var(--nav-text)" type="reset">Reset</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- FOOTER (shared) -->
+    <footer>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+        <div style="text-align:left">
+          <strong>The Creative Coders</strong>
+          <div style="color:var(--muted)">© <span id="year"></span> — Crafted with care</div>
+        </div>
+        <div style="text-align:right;color:var(--muted)">Follow us — Twitter · Dribbble · GitHub</div>
+      </div>
+    </footer>
+
+  </main>
+
+  <script>
+    // Sticky header effect
+    const header = document.querySelector('.header');
+    window.addEventListener('scroll', ()=>{
+      if(window.scrollY > 60) header.classList.add('scrolled'); else header.classList.remove('scrolled');
+    });
+
+    // set footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // simple keyboard + hover accessibility for nav (keeps previous dropdown behaviour light)
+    document.querySelectorAll('.nav-item').forEach(item=>{
+      item.addEventListener('focus', ()=>item.classList.add('active'));
+      item.addEventListener('blur', ()=>item.classList.remove('active'));
+      item.addEventListener('mouseenter', ()=>item.classList.add('active'));
+      item.addEventListener('mouseleave', ()=>item.classList.remove('active'));
+    });
+  </script>
+</body>
+</html>
